@@ -3,9 +3,9 @@ var requests = {},
 
 requests.getAllListCollections = function() {
 	$.ajax({
-	    url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections?apiKey=' + API_KEY,  
-	    success: function( data ) {
-	    	console.log( data ); 
-	    }
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections?apiKey=' + API_KEY,  
+		success: function( data ) {
+			console.log( data ); 
+		}
 	});
 }
