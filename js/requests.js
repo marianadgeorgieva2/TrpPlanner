@@ -1,11 +1,13 @@
 var requests = {},
 	API_KEY = 'D4XFXTfaT3iTBWYMWxpCNDhB-Acuijdj';
 
-requests.getAllListCollections = function() {
+requests.getAllPlaces = function( successCallback ) {
 	$.ajax({
-		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections?apiKey=' + API_KEY,  
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-places?apiKey=' + API_KEY,  
 		success: function( data ) {
-			console.log( data ); 
+			if( typeof successCallback === 'function' ) {
+				successCallback( data );
+			} 
 		}
 	});
 }
