@@ -9,3 +9,16 @@ requests.getAllListCollections = function() {
 		}
 	});
 }
+
+
+requests.addNewPlace = function( coords ) {
+	$.ajax({
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-places?apiKey=' + API_KEY,
+		data: JSON.stringify( { coords : coords } ),
+		type: 'POST',
+		contentType: 'application/json',
+		success: function( data ) {
+			console.log( data ); 
+		}
+	});
+}

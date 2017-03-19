@@ -1,8 +1,16 @@
-var map = {};
+var map = {},
+	$doc = $( document );
 
 
 map.init = function() {
+	map.baseInit();
+	map.routingControlInit();
 
+	map.addNewPlaceEventListener();
+}
+
+// map and tile layer
+map.baseInit = function() {
 	var mapTileLayer = L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -11,14 +19,11 @@ map.init = function() {
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
 	mapTileLayer.addTo( this._map );
-
-	map.routingControlInit();
 }
 
-
+// the control in the right for searching routes
 map.routingControlInit = function() {
 	var greenIcon = map.getCustomIcon(),
-		popupContent = map.getWaypointMarkerPopupContent(),
 		routingControl = L.Routing.control({
 			waypoints: [
 				L.latLng(57.74, 11.94),
@@ -35,27 +40,31 @@ map.routingControlInit = function() {
 				return L.marker( wp.latLng, {
 					draggable: true,
 					icon: greenIcon
-				}).bindPopup( popupContent );
+				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
 			}
 		});
 
 	routingControl.addTo( this._map );
 
-	routingControl.on('routesfound', function(e) {
-		var routes = e.routes;
-		console.log('Found ' + routes.length + ' route(s).');
-	});
+	// routingControl.on('routesfound', function(e) {
+	// 	var routes = e.routes;
+	// 	console.log('Found ' + routes.length + ' route(s).');
+	// });
 
 
-	routingControl.on('routeselected', function(e) {
-		var route = e.route;
-		console.log('Showing route between waypoints:\n' + JSON.stringify(route.inputWaypoints, null, 2));
-	});
+	// routingControl.on('routeselected', function(e) {
+	// 	var route = e.route;
+	// 	console.log('Showing route between waypoints:\n' + JSON.stringify(route.inputWaypoints, null, 2));
+	// });
 }
 
-// get the matkup of the popups of the way points
-map.getWaypointMarkerPopupContent = function() {
- 	return '<button class="add-to-my-places" type="button">Add to My Places</button>'
+// get a popup with add to places button
+map.getWaypointMarkerPopup = function( latlng ) {
+	var popup = L.popup()
+		.setLatLng( latlng )
+			.setContent( '<button class="add-to-my-places" type="button" data-coords="[' + latlng.lat + ',' + latlng.lng + ']">Add to My Places</button>' );
+
+	return popup;
 }
 
 
@@ -68,4 +77,19 @@ map.getCustomIcon = function() {
 	});
 
 	return new CustomIcon( { iconUrl: 'img/green-marker.png' } );
+}
+
+
+// event listener for the 'add to my places' button in
+// the waypoints popup
+map.addNewPlaceEventListener = function() {
+	$doc.on( 'click', '.add-to-my-places', function() {
+		console.log( $( this ).data( 'coords' ) );
+		
+		var newPlace = new MyPlace( {
+			coords: $( this ).data( 'coords' )
+		});
+
+		requests.addNewPlace( $( this ).data( 'coords' ) );
+	});
 }
