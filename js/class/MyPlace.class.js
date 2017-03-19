@@ -1,8 +1,8 @@
 
 
-var MyPlace = function( options ){
-	this._id = options.id;
-	this.coords = options.coords;
+var MyPlace = function( options ) {
+	this._id = options._id;
+	this._coords = options.coords;
 
 	myPlacesDictionary.addNewPlace( this );
 }

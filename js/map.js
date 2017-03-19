@@ -84,12 +84,18 @@ map.getCustomIcon = function() {
 // the waypoints popup
 map.addNewPlaceEventListener = function() {
 	$doc.on( 'click', '.add-to-my-places', function() {
-		console.log( $( this ).data( 'coords' ) );
-		
-		var newPlace = new MyPlace( {
-			coords: $( this ).data( 'coords' )
-		});
+		var coords = $( this ).data( 'coords' );
 
-		requests.addNewPlace( $( this ).data( 'coords' ) );
+		// check if we already have a olace on this coordinates
+		if( ! myPlacesDictionary.getPlace( coords ) ) {
+			requests.addNewPlace( 
+				coords,
+				function success( data ) {
+					var newPlace = new MyPlace( data );
+				} );
+		}
+		else {
+			toastr.error( 'You already have a place on this location!' );
+		}
 	});
 }
