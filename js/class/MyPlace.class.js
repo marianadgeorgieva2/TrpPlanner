@@ -9,7 +9,7 @@ var MyPlace = function( options ) {
 
 
 MyPlace.prototype.getMarker = function() {
-	return L.marker( wp.latLng, {
+	return L.marker( this._coords, {
 		draggable: true,
 	}).bindPopup( 'hgdhjgdh' );
 }

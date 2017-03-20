@@ -1,9 +1,14 @@
-var myPlacesDictionary = {};
+var myPlacesDictionary = {},
+	dictionary = {};
 
 myPlacesDictionary.addNewPlace = function( place ) {
-	myPlacesDictionary[ place._coords ] = place;
+	dictionary[ place._coords ] = place;
 }
 
 myPlacesDictionary.getPlace = function( coords ) {
-	return myPlacesDictionary[ coords ];
+	return dictionary[ coords ];
+}
+
+myPlacesDictionary.getAllPlaces = function( coords ) {
+	return dictionary;
 }

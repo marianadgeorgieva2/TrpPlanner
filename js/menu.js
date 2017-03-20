@@ -8,7 +8,13 @@ menu.init = function() {
 
 
 menu.getAllPlaces = function() {
+	var currenPlace = {};
+
 	requests.getAllPlaces( function successCallback( data ) {
-		console.log( data );
+		for( var i in data ) {
+			currenPlace = new MyPlace( data[ i ] );
+		}
+
+		map.showMyPlaces();
 	});
 }

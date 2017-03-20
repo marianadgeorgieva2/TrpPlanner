@@ -35,11 +35,13 @@ map.routingControlInit = function() {
 				styles: [ { color: '#ffb74c', opacity: 0.8, weight: 6 } ],
 				addWaypoints: false
 			},
+			fitSelectedRoutes: true,
 			geocoder: L.Control.Geocoder.nominatim(),
 			createMarker: function( i, wp ) {
 				return L.marker( wp.latLng, {
 					draggable: true,
-					icon: greenIcon
+					icon: greenIcon,
+					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
 			}
 		});
@@ -72,7 +74,8 @@ map.getWaypointMarkerPopup = function( latlng ) {
 map.getCustomIcon = function() {
 	var CustomIcon = L.Icon.extend({
 			options: {
-				iconSize: [ 38, 55 ]
+				iconSize: [ 36, 54 ],
+				iconAnchor: [ 18, 54 ]
 			}
 	});
 
@@ -98,4 +101,19 @@ map.addNewPlaceEventListener = function() {
 			toastr.error( 'You already have a place on this location!' );
 		}
 	});
+}
+
+map.showMyPlaces = function() {
+	var allPlaces = myPlacesDictionary.getAllPlaces(),
+		markers = [],
+		layer = {};
+
+	for( var i in allPlaces ) {
+		markers.push( allPlaces[ i ].getMarker() );
+	}
+
+	layer = L.featureGroup( markers )
+	    .addTo( this._map );
+
+	this._map.fitBounds( layer.getBounds() );
 }
