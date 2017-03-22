@@ -3,10 +3,11 @@ var map = {},
 
 
 map.init = function() {
-	map.baseInit();
-	map.routingControlInit();
+	this.baseInit();
+	this.routingControlInit();
 
-	map.addNewPlaceEventListener();
+	this.addNewPlaceEventListener();
+	this.enlargePopupEventListener();
 }
 
 // map and tile layer
@@ -67,7 +68,7 @@ map.getWaypointMarkerPopup = function( latlng ) {
 			.setContent( '<button class="add-to-my-places" type="button" data-coords="[' + latlng.lat + ',' + latlng.lng + ']">Add to My Places</button>' );
 
 	return popup;
-}
+};
 
 
 // create a marker icon from an img saved in the imgs folder
@@ -80,7 +81,7 @@ map.getCustomIcon = function() {
 	});
 
 	return new CustomIcon( { iconUrl: 'img/green-marker.png' } );
-}
+};
 
 
 // event listener for the 'add to my places' button in
@@ -101,7 +102,7 @@ map.addNewPlaceEventListener = function() {
 			toastr.error( 'You already have a place on this location!' );
 		}
 	});
-}
+};
 
 map.showMyPlaces = function() {
 	var allPlaces = myPlacesDictionary.getAllPlaces(),
@@ -116,4 +117,14 @@ map.showMyPlaces = function() {
 	    .addTo( this._map );
 
 	this._map.fitBounds( layer.getBounds() );
-}
+};
+
+map.enlargePopupEventListener = function() {
+	var myPlace = null;
+
+	$doc.on( 'click', '.my-place-popup', function() {
+		myPlace = myPlacesDictionary.getPlace( $( this ).data( 'coords' ) );
+
+		$( '.big-popup' ).html( myPlace.getMarkerBigPopupContent() ).removeClass( 'hidden' );
+	});
+};
