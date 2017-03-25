@@ -26,3 +26,21 @@ requests.addNewPlace = function( coords, successCallback ) {
 		}
 	});
 }
+
+requests.updatePlace = function( id, prop, value, successCallback ) {
+	var objToSend = {};
+
+	objToSend[ prop ] = value;
+
+	$.ajax({
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-places/' + id + '?apiKey=' + API_KEY,
+		data: JSON.stringify( { "$set" : objToSend } ),
+		type: "PUT",
+		contentType: "application/json",
+		success: function( data ) {
+			if( typeof successCallback === 'function' ) {
+				successCallback( data );
+			}
+		}
+	});
+}

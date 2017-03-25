@@ -9,6 +9,8 @@ map.init = function() {
 	this.addNewPlaceEventListener();
 	this.enlargePopupEventListener();
 	map.closePopupEventListener();
+	map.editPlaceEventListener();
+	map.updatePlaceEventListener();
 }
 
 // map and tile layer
@@ -135,3 +137,16 @@ map.closePopupEventListener = function() {
 		$( '.big-popup' ).addClass( 'hidden' );
 	});
 };
+
+// event listener for the edit icon in the place big popup
+map.editPlaceEventListener = function() {
+	$doc.on( 'click', '.edit-place-icon', function() {
+		$( '.my-place-big-popup' ).toggleClass( 'edit-view' );
+	});
+}
+
+map.updatePlaceEventListener = function() {
+	$doc.on( 'change', '.place-title', function() {
+		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'title', $( this ).val() );
+	});
+}

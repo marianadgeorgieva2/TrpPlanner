@@ -63,6 +63,7 @@ body {
 	display: none;
 }
 .my-place-big-popup {
+	position: relative;
 	width: 90%;
 	max-width: 600px;
 	height: 80%;
@@ -76,8 +77,28 @@ body {
 	display: block;
 	width: 100%;
 	margin: 15px 0;
-	border: 1px solid #aaa;
+	border: 1px solid #fff;
 	padding: 12px;
+	resize: none;
+	pointer-events: none;
+}
+
+.big-popup .edit-view input,
+.big-popup .edit-view textarea {
+	border-color: #aaa;
+	pointer-events: auto;
+}
+
+.edit-place-icon {
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	width: 20px;	
+	height: 20px;
+	padding: 10px;
+	background: url( '../img/edit.svg' ) no-repeat;
+	background-size: contain;
+	cursor: pointer;
 }
 
 .close-popup {
