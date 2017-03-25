@@ -8,6 +8,7 @@ map.init = function() {
 
 	this.addNewPlaceEventListener();
 	this.enlargePopupEventListener();
+	map.closePopupEventListener();
 }
 
 // map and tile layer
@@ -126,5 +127,11 @@ map.enlargePopupEventListener = function() {
 		myPlace = myPlacesDictionary.getPlace( $( this ).data( 'coords' ) );
 
 		$( '.big-popup' ).html( myPlace.getMarkerBigPopupContent() ).removeClass( 'hidden' );
+	});
+};
+
+map.closePopupEventListener = function() {
+	$doc.on( 'click', '.close-popup', function() {
+		$( '.big-popup' ).addClass( 'hidden' );
 	});
 };

@@ -89,4 +89,5 @@ body {
 	background: url( '../img/close.svg' );
 	background-size: contain;
 	z-index: 1001;
+	cursor: pointer;
 }

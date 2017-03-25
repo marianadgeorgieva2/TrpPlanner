@@ -30,5 +30,6 @@ MyPlace.prototype.getMarkerBigPopupContent = function() {
 							'<input class="place-title" value="' + ( this._title ? this._title : 'My Place' ) + '">' +
 							'<textarea class="place-info">' + ( this._info ? this._info : '' ) + '</textarea>' +
 							'<input class="place-img" value="' + ( this._img ? this._img : '' ) + '">' +
-						'</div>';
+						'</div>' +
+						'<div class="close-popup"></div>';
 }
