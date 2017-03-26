@@ -11,6 +11,7 @@ map.init = function() {
 	map.closePopupEventListener();
 	map.editPlaceEventListener();
 	map.updatePlaceEventListener();
+	map.deletePlaceEventListener();
 }
 
 // map and tile layer
@@ -178,5 +179,25 @@ map.updatePlaceEventListener = function() {
 			myPlace.setImg( imgVal );
 			myPlace.setMarkerIcon();
 		});
+	});
+}
+
+map.deletePlaceEventListener = function() {
+	var placeId = null,
+		place = null;
+
+	$doc.on( 'click', '.delete-place-icon', function() {
+		if( window.confirm( 'Are you sure you want to delete this place?' ) ) {
+			placeId = $( '.my-place-big-popup' ).attr( 'id' );
+			place = myPlacesDictionary.getPlace( $( '.my-place-big-popup' ).data( 'coords' ) );
+
+			requests.deletePlace( placeId, function successCallback() {
+				toastr.success( 'Deleted!' );
+
+				$( '.big-popup' ).addClass( 'hidden' );
+				map._map.removeLayer( place.getCurrentMarker() );
+				place = undefined;
+			} );
+		}
 	});
 }

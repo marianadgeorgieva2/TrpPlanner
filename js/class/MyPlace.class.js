@@ -75,6 +75,7 @@ MyPlace.prototype.getMarkerBigPopupContent = function() {
 							'<input class="place-img" placeholder="Image URL" value="' + ( this._img ? this._img : '' ) + '">' +
 							( this._img ? '<img class="place-img-preview" src="' + this._img + '" />' : '' ) +
 							'<div class="edit-place-icon"></div>' +
+							'<div class="delete-place-icon"></div>' +
 						'</div>' +
 						'<div class="close-popup"></div>';
 }
@@ -90,4 +91,8 @@ MyPlace.prototype.setInfo = function( info ) {
 
 MyPlace.prototype.setTitle = function( title ) {
 	this._title = title;
+}
+
+MyPlace.prototype.getCurrentMarker = function() {
+	return this._currentMarker;
 }
