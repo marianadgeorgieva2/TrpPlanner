@@ -27,7 +27,7 @@ map.baseInit = function() {
 
 // the control in the right for searching routes
 map.routingControlInit = function() {
-	var greenIcon = map.getCustomIcon(),
+	var customIcon = map.getCustomIcon(),
 		routingControl = L.Routing.control({
 			waypoints: [
 				L.latLng(57.74, 11.94),
@@ -44,7 +44,7 @@ map.routingControlInit = function() {
 			createMarker: function( i, wp ) {
 				return L.marker( wp.latLng, {
 					draggable: true,
-					icon: greenIcon,
+					icon: customIcon,
 					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
 			}
@@ -78,12 +78,12 @@ map.getWaypointMarkerPopup = function( latlng ) {
 map.getCustomIcon = function() {
 	var CustomIcon = L.Icon.extend({
 			options: {
-				iconSize: [ 36, 54 ],
-				iconAnchor: [ 18, 54 ]
+				iconSize: [ 60, 60 ],
+				iconAnchor: [ 30, 60 ]
 			}
 	});
 
-	return new CustomIcon( { iconUrl: 'img/green-marker.png' } );
+	return new CustomIcon( { iconUrl: 'img/search-marker.svg' } );
 };
 
 

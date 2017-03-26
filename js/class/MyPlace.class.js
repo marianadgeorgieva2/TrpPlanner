@@ -10,11 +10,50 @@ var MyPlace = function( options ) {
 	myPlacesDictionary.addNewPlace( this );
 };
 
+MyPlace.prototype.setMarkerIcon = function() {
+	var defaultIconSrc = 'img/fav-marker.svg',
+		markerImg = new Image(),
+		imgWidth = 0,
+		imgHeight = 0,
+		markerIcon = null,
+		currentMarker = this._currentMarker,
+		imgElemMarkup = '';
+
+	markerImg.src = ( this._img ? this._img : defaultIconSrc );
+	markerImg.onload = function() {
+		markerImg = utils.limitImageSize( markerImg, 60, markerImg.width, markerImg.height );
+
+		imgWidth = this.width;
+		imgHeight = this.height;
+
+		imgElemMarkup = $( '<div>' ).append( $( markerImg ).clone() ).html();
+
+		markerIcon = L.divIcon({
+			className: 'my-place-icon',
+			html: imgElemMarkup,
+			iconSize: [ imgWidth, imgHeight ],
+			iconAnchor: [ imgWidth/2, imgHeight ],
+			popupAnchor: [ 0, -imgHeight - 10 ]
+		});
+
+		currentMarker.setIcon( markerIcon );
+
+	};
+
+	markerImg.onerror = function() {
+		
+	};
+};
+
 
 MyPlace.prototype.getMarker = function() {
-	return L.marker( this._coords, {
+	this._currentMarker = L.marker( this._coords, {
 		draggable: true,
 	}).bindPopup( this.getMarkerPopupContent() );
+
+	this.setMarkerIcon();
+
+	return this._currentMarker;
 };
 
 

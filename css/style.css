@@ -13,6 +13,11 @@ body {
 	height: calc( 100vh - 70px );
 }
 
+.my-place-icon {
+	background: transparent;
+	border: none;
+}
+
 /*top controls*/
 #top-controls {
 	width: 100%;
