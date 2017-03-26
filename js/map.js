@@ -145,8 +145,20 @@ map.editPlaceEventListener = function() {
 	});
 }
 
+// event listeners for all place fields
 map.updatePlaceEventListener = function() {
 	$doc.on( 'change', '.place-title', function() {
 		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'title', $( this ).val() );
+	});
+
+	$doc.on( 'change', '.place-info', function() {
+		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'info', $( this ).val() );
+	});
+
+	$doc.on( 'change', '.place-img', function() {
+		var imgVal = $( this ).val();
+
+		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'img', imgVal );
+		$( '.place-img-preview' ).attr( 'src', imgVal );
 	});
 }
