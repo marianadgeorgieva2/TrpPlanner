@@ -148,17 +148,35 @@ map.editPlaceEventListener = function() {
 // event listeners for all place fields
 map.updatePlaceEventListener = function() {
 	$doc.on( 'change', '.place-title', function() {
-		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'title', $( this ).val() );
+		var $popup = $( '.my-place-big-popup' ),
+			title = $( this ).val(),
+			myPlace = myPlacesDictionary.getPlace( $popup.data( 'coords' ) );
+
+		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'title', title, function successCallback() {
+			myPlace.setTitle( title );
+			myPlace.updateMarkerPopup();
+		});
 	});
 
 	$doc.on( 'change', '.place-info', function() {
-		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'info', $( this ).val() );
+		var $popup = $( '.my-place-big-popup' ),
+			info = $( this ).val(),
+			myPlace = myPlacesDictionary.getPlace( $popup.data( 'coords' ) );
+
+		requests.updatePlace( $popup.attr( 'id' ), 'info', info, function successCallback() {
+			myPlace.setInfo( info );
+		});
 	});
 
 	$doc.on( 'change', '.place-img', function() {
-		var imgVal = $( this ).val();
+		var $popup = $( '.my-place-big-popup' ),
+			imgVal = $( this ).val(),
+			myPlace = myPlacesDictionary.getPlace( $popup.data( 'coords' ) );
 
-		requests.updatePlace( $( '.my-place-big-popup' ).attr( 'id' ), 'img', imgVal );
-		$( '.place-img-preview' ).attr( 'src', imgVal );
+		requests.updatePlace( $popup.attr( 'id' ), 'img', imgVal, function successCallback() {
+			$( '.place-img-preview' ).attr( 'src', imgVal );
+			myPlace.setImg( imgVal );
+			myPlace.setMarkerIcon();
+		});
 	});
 }

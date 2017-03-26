@@ -56,6 +56,10 @@ MyPlace.prototype.getMarker = function() {
 	return this._currentMarker;
 };
 
+MyPlace.prototype.updateMarkerPopup = function() {
+	this._currentMarker.bindPopup( this.getMarkerPopupContent() );
+};
+
 
 MyPlace.prototype.getMarkerPopupContent = function() {
 	return '<div class="my-place-popup" data-coords="' + this._coords + '">' +
@@ -73,4 +77,17 @@ MyPlace.prototype.getMarkerBigPopupContent = function() {
 							'<div class="edit-place-icon"></div>' +
 						'</div>' +
 						'<div class="close-popup"></div>';
+}
+
+
+MyPlace.prototype.setImg = function( img ) {
+	this._img = img;
+}
+
+MyPlace.prototype.setInfo = function( info ) {
+	this._info = info;
+}
+
+MyPlace.prototype.setTitle = function( title ) {
+	this._title = title;
 }
