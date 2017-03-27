@@ -12,6 +12,7 @@ map.init = function() {
 	map.editPlaceEventListener();
 	map.updatePlaceEventListener();
 	map.deletePlaceEventListener();
+	map.showPlacesEventListener();
 }
 
 // map and tile layer
@@ -28,11 +29,11 @@ map.baseInit = function() {
 
 // the control in the right for searching routes
 map.routingControlInit = function() {
-	var customIcon = map.getCustomIcon(),
+	var _this = this,
+		customIcon = map.getCustomIcon(),
 		routingControl = L.Routing.control({
 			waypoints: [
-				L.latLng(57.74, 11.94),
-				L.latLng(57.6792, 11.949)
+				L.latLng( 42.69757, 23.32254 )
 			],
 			routeWhileDragging: true,
 			showAlternatives: true,
@@ -43,6 +44,8 @@ map.routingControlInit = function() {
 			fitSelectedRoutes: true,
 			geocoder: L.Control.Geocoder.nominatim(),
 			createMarker: function( i, wp ) {
+				_this._map.panTo( wp.latLng );
+
 				return L.marker( wp.latLng, {
 					draggable: true,
 					icon: customIcon,
@@ -53,10 +56,11 @@ map.routingControlInit = function() {
 
 	routingControl.addTo( this._map );
 
-	// routingControl.on('routesfound', function(e) {
-	// 	var routes = e.routes;
-	// 	console.log('Found ' + routes.length + ' route(s).');
-	// });
+	routingControl.on( 'routesfound', function(e) {
+		var routes = e.routes;
+
+		map._currentRoutes = routes;
+	});
 
 
 	// routingControl.on('routeselected', function(e) {
@@ -199,5 +203,15 @@ map.deletePlaceEventListener = function() {
 				place = undefined;
 			} );
 		}
+	});
+}
+
+map.showPlacesEventListener = function() {
+	$doc.on( 'click', '.show-places', function() {
+		var route = map._currentRoutes[ 0 ],
+			coords = route.coordinates,
+			myPlaces = myPlacesDictionary.getAllPlaces(),
+			currentPlaceCoords = null;
+
 	});
 }

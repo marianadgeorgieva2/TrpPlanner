@@ -96,3 +96,7 @@ MyPlace.prototype.setTitle = function( title ) {
 MyPlace.prototype.getCurrentMarker = function() {
 	return this._currentMarker;
 }
+
+MyPlace.prototype.getCoords = function() {
+	return this._coords;
+}
