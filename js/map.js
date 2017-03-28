@@ -13,7 +13,7 @@ map.init = function() {
 	map.updatePlaceEventListener();
 	map.deletePlaceEventListener();
 	map.showPlacesEventListener();
-}
+};
 
 // map and tile layer
 map.baseInit = function() {
@@ -25,7 +25,7 @@ map.baseInit = function() {
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
 	mapTileLayer.addTo( this._map );
-}
+};
 
 // the control in the right for searching routes
 map.routingControlInit = function() {
@@ -100,7 +100,7 @@ map.addNewPlaceEventListener = function() {
 
 		// check if we already have a olace on this coordinates
 		if( ! myPlacesDictionary.getPlace( coords ) ) {
-			requests.addNewPlace( 
+			requests.addNewPlace(
 				coords,
 				function success( data ) {
 					var newPlace = new MyPlace( data );
