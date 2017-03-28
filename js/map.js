@@ -4,7 +4,7 @@ var map = {},
 
 map.init = function() {
 	this.baseInit();
-	this.routingControlInit();
+	// this.routingControlInit();
 
 	this.addNewPlaceEventListener();
 	this.enlargePopupEventListener();
@@ -25,49 +25,52 @@ map.baseInit = function() {
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
 	mapTileLayer.addTo( this._map );
+
+	var route = MapBoxer.init( this._map );
+	console.log( route );
 };
 
 // the control in the right for searching routes
-map.routingControlInit = function() {
-	var _this = this,
-		customIcon = map.getCustomIcon(),
-		routingControl = L.Routing.control({
-			waypoints: [
-				L.latLng( 42.69757, 23.32254 )
-			],
-			routeWhileDragging: true,
-			showAlternatives: true,
-			lineOptions: {
-				styles: [ { color: '#ffb74c', opacity: 0.8, weight: 6 } ],
-				addWaypoints: false
-			},
-			fitSelectedRoutes: true,
-			geocoder: L.Control.Geocoder.nominatim(),
-			createMarker: function( i, wp ) {
-				_this._map.panTo( wp.latLng );
+// map.routingControlInit = function() {
+// 	var _this = this,
+// 		customIcon = map.getCustomIcon(),
+// 		routingControl = L.Routing.control({
+// 			waypoints: [
+// 				L.latLng( 42.69757, 23.32254 )
+// 			],
+// 			routeWhileDragging: true,
+// 			showAlternatives: true,
+// 			lineOptions: {
+// 				styles: [ { color: '#ffb74c', opacity: 0.8, weight: 6 } ],
+// 				addWaypoints: false
+// 			},
+// 			fitSelectedRoutes: true,
+// 			geocoder: L.Control.Geocoder.nominatim(),
+// 			createMarker: function( i, wp ) {
+// 				_this._map.panTo( wp.latLng );
 
-				return L.marker( wp.latLng, {
-					draggable: true,
-					icon: customIcon,
-					riseOnHover: true
-				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
-			}
-		});
+// 				return L.marker( wp.latLng, {
+// 					draggable: true,
+// 					icon: customIcon,
+// 					riseOnHover: true
+// 				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
+// 			}
+// 		});
 
-	routingControl.addTo( this._map );
+// 	routingControl.addTo( this._map );
 
-	routingControl.on( 'routesfound', function(e) {
-		var routes = e.routes;
+// 	routingControl.on( 'routesfound', function(e) {
+// 		var routes = e.routes;
 
-		map._currentRoutes = routes;
-	});
+// 		map._currentRoutes = routes;
+// 	});
 
 
-	// routingControl.on('routeselected', function(e) {
-	// 	var route = e.route;
-	// 	console.log('Showing route between waypoints:\n' + JSON.stringify(route.inputWaypoints, null, 2));
-	// });
-}
+// 	// routingControl.on('routeselected', function(e) {
+// 	// 	var route = e.route;
+// 	// 	console.log('Showing route between waypoints:\n' + JSON.stringify(route.inputWaypoints, null, 2));
+// 	// });
+// }
 
 // get a popup with add to places button
 map.getWaypointMarkerPopup = function( latlng ) {
