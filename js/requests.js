@@ -3,14 +3,14 @@ var requests = {},
 
 requests.getAllPlaces = function( successCallback ) {
 	$.ajax({
-		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-places?apiKey=' + API_KEY,  
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-places?apiKey=' + API_KEY,
 		success: function( data ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
-			} 
+			}
 		}
 	});
-}
+};
 
 
 requests.addNewPlace = function( coords, successCallback ) {
@@ -22,10 +22,10 @@ requests.addNewPlace = function( coords, successCallback ) {
 		success: function( data ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
-			} 
+			}
 		}
 	});
-}
+};
 
 requests.updatePlace = function( id, prop, value, successCallback ) {
 	var objToSend = {};
@@ -43,7 +43,7 @@ requests.updatePlace = function( id, prop, value, successCallback ) {
 			}
 		}
 	});
-}
+};
 
 requests.deletePlace = function( id, successCallback ) {
 	$.ajax( {
@@ -51,10 +51,33 @@ requests.deletePlace = function( id, successCallback ) {
 		type: "DELETE",
 		async: true,
 		timeout: 300000,
-		success: function ( data ) { 
+		success: function ( data ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
 		},
 		error: function (xhr, status, err) { } } );
-}
+};
+
+
+
+requests.getRoute = function( loc, successCallback ) {
+	$.ajax({
+		url: 'https://router.project-osrm.org/route/v1/driving/' + loc.join( ';' ),
+		data: {
+			overview: 'full',
+			steps: false,
+			//compression: false,
+			alternatives: true
+	  },
+	  dataType: 'json',
+	  success: function ( data ) {
+	  	if( typeof successCallback === 'function' ) {
+	  		successCallback( data.routes  );
+	  	}
+	  },
+	  error: function (xhr, status, err) { } } );
+};
+
+
+

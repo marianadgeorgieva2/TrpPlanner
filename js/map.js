@@ -26,8 +26,44 @@ map.baseInit = function() {
 
 	mapTileLayer.addTo( this._map );
 
-	var route = MapBoxer.init( this._map );
-	console.log( route );
+
+	var loc = [
+	  '9.992196,53.553406',
+	  '9.992196,56.563406'
+	];
+
+	this._distance = 10;
+
+	map.getRouteWithBoxes( loc, function sucessCallback( route ) {
+		console.log( route );
+	});
+};
+
+map.getRouteWithBoxes = function( loc, successCallback ) {
+	requests.getRoute( loc, function successCallback2( routes ) {
+		for( var i in routes ) {
+			map.drawRoutePolylineAndBoxes( routes[ i ].geometry );
+		}
+	});
+};
+
+map.drawRoutePolylineAndBoxes = function ( route ) {
+	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
+		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
+		bounds = new L.LatLngBounds( [] ),
+		boxpolys = new Array( boxes.length ),
+		boxesLayer = L.featureGroup( [] );
+
+
+	for ( var i in boxes ) {
+		L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
+		bounds.extend( boxes[ i ] );
+	}
+
+	this._map.addLayer( routePolyline );
+	this._map.addLayer( boxesLayer );
+	this._map.fitBounds( bounds );
+
 };
 
 // the control in the right for searching routes
