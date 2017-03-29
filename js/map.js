@@ -5,6 +5,7 @@ var map = {},
 map.init = function() {
 	this.baseInit();
 	// this.routingControlInit();
+	map.geocoderInit();
 
 	this.addNewPlaceEventListener();
 	this.enlargePopupEventListener();
@@ -34,12 +35,39 @@ map.baseInit = function() {
 
 	this._distance = 10;
 
-	map.getRouteWithBoxes( loc, function sucessCallback( route ) {
-		console.log( route );
-	});
+	map.getRouteWithBoxes( loc );
 };
 
-map.getRouteWithBoxes = function( loc, successCallback ) {
+map.geocoderInit = function() {
+	var _this = this,
+		geocoder = L.Control.geocoder({
+	        defaultMarkGeocode: false
+	    })
+	    .on( 'markgeocode', function( e ) {
+	        var lastLocation = _this._map._lastLocation,
+	        	center = e.geocode.center,
+	        	marker = L.marker( center, {
+					draggable: true,
+					icon: map.getCustomIcon(),
+					riseOnHover: true
+				}).bindPopup( map.getWaypointMarkerPopup( center ) );
+
+
+	        marker.addTo( _this._map );
+
+	        if( lastLocation ) {
+	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
+	        }
+	        else {
+	        	_this._map.panTo( center );
+	        }
+
+	        _this._map._lastLocation = center;
+	    })
+	    .addTo( _this._map );
+}
+
+map.getRouteWithBoxes = function( loc ) {
 	requests.getRoute( loc, function successCallback2( routes ) {
 		for( var i in routes ) {
 			map.drawRoutePolylineAndBoxes( routes[ i ].geometry );
@@ -52,12 +80,15 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
 		bounds = new L.LatLngBounds( [] ),
 		boxpolys = new Array( boxes.length ),
-		boxesLayer = L.featureGroup( [] );
+		boxesLayer = L.featureGroup( [] ),
+		currentRectangle = null;
 
 
 	for ( var i in boxes ) {
-		L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
+		currentRectangle = L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
 		bounds.extend( boxes[ i ] );
+
+		map.checkForReachablePlaces( currentRectangle );
 	}
 
 	this._map.addLayer( routePolyline );
@@ -65,6 +96,14 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 	this._map.fitBounds( bounds );
 
 };
+
+map.checkForReachablePlaces = function( rectangle ) {
+	var myPlaces = myPlacesDictionary.getAllPlaces();
+
+	for( var i in myPlaces ) {
+		console.log( rectangle.getBounds().contains( myPlaces[ i ].getCoords() ) );
+	}
+}
 
 // the control in the right for searching routes
 // map.routingControlInit = function() {
