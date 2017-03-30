@@ -14,6 +14,8 @@ map.init = function() {
 	map.updatePlaceEventListener();
 	map.deletePlaceEventListener();
 	map.showPlacesEventListener();
+
+	map.startNewRouteEventListener();
 };
 
 // map and tile layer
@@ -24,6 +26,14 @@ map.baseInit = function() {
 		});
 
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
+
+	this._map._searchPlaces = L.featureGroup( [] );
+	this._map._routesLayer = L.featureGroup( [] );
+	this._map._myPlacesLayer = L.featureGroup( [] );
+
+	this._map.addLayer( this._map._searchPlaces );
+	this._map.addLayer( this._map._routesLayer );
+	this._map.addLayer( this._map._myPlacesLayer );
 
 	mapTileLayer.addTo( this._map );
 };
@@ -42,7 +52,7 @@ map.geocoderInit = function() {
 					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( center ) );
 
-	        marker.addTo( _this._map );
+	        this._map._searchPlaces.addLayer( marker );
 
 	        if( lastLocation ) {
 	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
@@ -73,8 +83,6 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 		currentRectangle = null,
 		reachablePlaces = [];
 
-	this._map.removeLayer( this._map._myPlacesLayer );
-
 	for ( var i in boxes ) {
 		currentRectangle = L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
 		bounds.extend( boxes[ i ] );
@@ -82,11 +90,10 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
 	}
 
-	this._map._myPlacesLayer = L.featureGroup( reachablePlaces );
-	this._map.addLayer( this._map._myPlacesLayer );
+	this._map._myPlacesLayer.addLayer( L.featureGroup( reachablePlaces ) );
 
-	this._map.addLayer( routePolyline );
-	this._map.addLayer( boxesLayer );
+	this._map._routesLayer.addLayer ( L.featureGroup( [ routePolyline, boxesLayer ] ) );
+
 	this._map.fitBounds( bounds );
 };
 
@@ -103,6 +110,15 @@ map.getReachablePlaces = function( rectangle ) {
 	}
 
 	return markers;
+};
+
+map.startNewRouteEventListener = function() {
+	$doc.on( 'click', '.start-new-route', function() {
+		map._map._myPlacesLayer.clearLayers();
+		map._map._routesLayer.clearLayers();
+		map._map._searchPlaces.clearLayers();
+		map._map._lastLocation = undefined;
+	});
 };
 
 // the control in the right for searching routes
@@ -204,7 +220,7 @@ map.showMyPlaces = function() {
 
 	this._map.fitBounds( layer.getBounds() );
 
-	this._map._myPlacesLayer = layer;
+	this._map._myPlacesLayer.addLayer( layer );
 };
 
 map.enlargePopupEventListener = function() {
