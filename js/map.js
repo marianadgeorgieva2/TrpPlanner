@@ -47,7 +47,7 @@ map.geocoderInit = function() {
 	        var lastLocation = _this._map._lastLocation,
 	        	center = e.geocode.center,
 	        	marker = L.marker( center, {
-					draggable: true,
+					draggable: false,
 					icon: map.getCustomIcon(),
 					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( center ) );
@@ -118,6 +118,8 @@ map.startNewRouteEventListener = function() {
 		map._map._routesLayer.clearLayers();
 		map._map._searchPlaces.clearLayers();
 		map._map._lastLocation = undefined;
+
+		$( '.leaflet-control-geocoder-icon' ).click();
 	});
 };
 
@@ -178,7 +180,8 @@ map.getCustomIcon = function() {
 	var CustomIcon = L.Icon.extend({
 			options: {
 				iconSize: [ 60, 60 ],
-				iconAnchor: [ 30, 60 ]
+				iconAnchor: [ 30, 60 ],
+				popupAnchor: [ 0, -70 ]
 			}
 	});
 
@@ -244,7 +247,7 @@ map.editPlaceEventListener = function() {
 	$doc.on( 'click', '.edit-place-icon', function() {
 		$( '.my-place-big-popup' ).toggleClass( 'edit-view' );
 	});
-}
+};
 
 // event listeners for all place fields
 map.updatePlaceEventListener = function() {
