@@ -16,6 +16,7 @@ map.init = function() {
 	map.showPlacesEventListener();
 
 	map.startNewRouteEventListener();
+	map.clearMapEventListener();
 };
 
 // map and tile layer
@@ -116,13 +117,23 @@ map.getReachablePlaces = function( rectangle ) {
 
 map.startNewRouteEventListener = function() {
 	$doc.on( 'click', '.start-new-route', function() {
-		map._myPlacesLayer.clearLayers();
-		map._routesLayer.clearLayers();
-		map._searchPlaces.clearLayers();
-		map._lastLocation = undefined;
+		map.clearMap();
 
 		$( '.leaflet-control-geocoder-icon' ).click();
 	});
+};
+
+map.clearMapEventListener = function() {
+	$doc.on( 'click', '.start-new-route, .clear-map', function() {
+		map.clearMap();
+	});
+};
+
+map.clearMap = function() {
+	map._myPlacesLayer.clearLayers();
+	map._routesLayer.clearLayers();
+	map._searchPlaces.clearLayers();
+	map._lastLocation = undefined;
 };
 
 // the control in the right for searching routes
