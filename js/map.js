@@ -27,13 +27,15 @@ map.baseInit = function() {
 
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
-	this._map._searchPlaces = L.featureGroup( [] );
-	this._map._routesLayer = L.featureGroup( [] );
-	this._map._myPlacesLayer = L.featureGroup( [] );
+	this._distance = 10;
 
-	this._map.addLayer( this._map._searchPlaces );
-	this._map.addLayer( this._map._routesLayer );
-	this._map.addLayer( this._map._myPlacesLayer );
+	this._searchPlaces = L.featureGroup( [] );
+	this._routesLayer = L.featureGroup( [] );
+	this._myPlacesLayer = L.featureGroup( [] );
+
+	this._map.addLayer( this._searchPlaces );
+	this._map.addLayer( this._routesLayer );
+	this._map.addLayer( this._myPlacesLayer );
 
 	mapTileLayer.addTo( this._map );
 };
@@ -52,7 +54,7 @@ map.geocoderInit = function() {
 					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( center ) );
 
-	        this._map._searchPlaces.addLayer( marker );
+	        map._searchPlaces.addLayer( marker );
 
 	        if( lastLocation ) {
 	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
@@ -76,7 +78,7 @@ map.getRouteWithBoxes = function( loc ) {
 
 map.drawRoutePolylineAndBoxes = function ( route ) {
 	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
-		boxes = L.RouteBoxer.box( routePolyline, 10 ),
+		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
 		bounds = new L.LatLngBounds( [] ),
 		boxpolys = new Array( boxes.length ),
 		boxesLayer = L.featureGroup( [] ),
@@ -90,9 +92,9 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
 	}
 
-	this._map._myPlacesLayer.addLayer( L.featureGroup( reachablePlaces ) );
+	this._myPlacesLayer.addLayer( L.featureGroup( reachablePlaces ) );
 
-	this._map._routesLayer.addLayer ( L.featureGroup( [ routePolyline, boxesLayer ] ) );
+	this._routesLayer.addLayer ( L.featureGroup( [ routePolyline, boxesLayer ] ) );
 
 	this._map.fitBounds( bounds );
 };
@@ -223,7 +225,7 @@ map.showMyPlaces = function() {
 
 	this._map.fitBounds( layer.getBounds() );
 
-	this._map._myPlacesLayer.addLayer( layer );
+	this._myPlacesLayer.addLayer( layer );
 };
 
 map.enlargePopupEventListener = function() {
@@ -283,7 +285,7 @@ map.updatePlaceEventListener = function() {
 			myPlace.setMarkerIcon();
 		});
 	});
-}
+};
 
 map.deletePlaceEventListener = function() {
 	var placeId = null,
@@ -303,14 +305,20 @@ map.deletePlaceEventListener = function() {
 			} );
 		}
 	});
-}
+};
 
 map.showPlacesEventListener = function() {
-	$doc.on( 'click', '.show-places', function() {
-		var route = map._currentRoutes[ 0 ],
-			coords = route.coordinates,
-			myPlaces = myPlacesDictionary.getAllPlaces(),
-			currentPlaceCoords = null;
+	var $showPlacesMenu = $( '.show-places-menu' );
 
+	$doc.on( 'click', '.show-places', function() {
+		$showPlacesMenu.toggleClass( 'hidden' );
 	});
-}
+
+	$doc.on( 'change', '.places-distance', function() {
+		var value = $( this ).val();
+
+		if( value ) {
+			map._distance = value;
+		}
+	});
+};
