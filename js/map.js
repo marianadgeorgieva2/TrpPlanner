@@ -26,16 +26,6 @@ map.baseInit = function() {
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
 	mapTileLayer.addTo( this._map );
-
-
-	var loc = [
-	  '9.992196,53.553406',
-	  '9.992196,56.563406'
-	];
-
-	this._distance = 10;
-
-	map.getRouteWithBoxes( loc );
 };
 
 map.geocoderInit = function() {
@@ -52,7 +42,6 @@ map.geocoderInit = function() {
 					riseOnHover: true
 				}).bindPopup( map.getWaypointMarkerPopup( center ) );
 
-
 	        marker.addTo( _this._map );
 
 	        if( lastLocation ) {
@@ -65,7 +54,7 @@ map.geocoderInit = function() {
 	        _this._map._lastLocation = center;
 	    })
 	    .addTo( _this._map );
-}
+};
 
 map.getRouteWithBoxes = function( loc ) {
 	requests.getRoute( loc, function successCallback2( routes ) {
@@ -77,33 +66,44 @@ map.getRouteWithBoxes = function( loc ) {
 
 map.drawRoutePolylineAndBoxes = function ( route ) {
 	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
-		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
+		boxes = L.RouteBoxer.box( routePolyline, 10 ),
 		bounds = new L.LatLngBounds( [] ),
 		boxpolys = new Array( boxes.length ),
 		boxesLayer = L.featureGroup( [] ),
-		currentRectangle = null;
+		currentRectangle = null,
+		reachablePlaces = [];
 
+	this._map.removeLayer( this._map._myPlacesLayer );
 
 	for ( var i in boxes ) {
 		currentRectangle = L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
 		bounds.extend( boxes[ i ] );
 
-		map.checkForReachablePlaces( currentRectangle );
+		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
 	}
+
+	this._map._myPlacesLayer = L.featureGroup( reachablePlaces );
+	this._map.addLayer( this._map._myPlacesLayer );
 
 	this._map.addLayer( routePolyline );
 	this._map.addLayer( boxesLayer );
 	this._map.fitBounds( bounds );
-
 };
 
-map.checkForReachablePlaces = function( rectangle ) {
-	var myPlaces = myPlacesDictionary.getAllPlaces();
+
+map.getReachablePlaces = function( rectangle ) {
+	var myPlaces = myPlacesDictionary.getAllPlaces(),
+		layer = {},
+		markers = [];
 
 	for( var i in myPlaces ) {
-		console.log( rectangle.getBounds().contains( myPlaces[ i ].getCoords() ) );
+		if( rectangle.getBounds().contains( myPlaces[ i ].getCoords() ) ) {
+			markers.push( myPlaces[ i ].getMarker() );
+		}
 	}
-}
+
+	return markers;
+};
 
 // the control in the right for searching routes
 // map.routingControlInit = function() {
@@ -203,6 +203,8 @@ map.showMyPlaces = function() {
 	    .addTo( this._map );
 
 	this._map.fitBounds( layer.getBounds() );
+
+	this._map._myPlacesLayer = layer;
 };
 
 map.enlargePopupEventListener = function() {
