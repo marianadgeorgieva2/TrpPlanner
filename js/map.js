@@ -46,7 +46,7 @@ map.geocoderInit = function() {
 	        defaultMarkGeocode: false
 	    })
 	    .on( 'markgeocode', function( e ) {
-	        var lastLocation = _this._map._lastLocation,
+	        var lastLocation = _this._lastLocation,
 	        	center = e.geocode.center,
 	        	marker = L.marker( center, {
 					draggable: false,
@@ -63,7 +63,7 @@ map.geocoderInit = function() {
 	        	_this._map.panTo( center );
 	        }
 
-	        _this._map._lastLocation = center;
+	        _this._lastLocation = center;
 	    })
 	    .addTo( _this._map );
 };
@@ -116,10 +116,10 @@ map.getReachablePlaces = function( rectangle ) {
 
 map.startNewRouteEventListener = function() {
 	$doc.on( 'click', '.start-new-route', function() {
-		map._map._myPlacesLayer.clearLayers();
-		map._map._routesLayer.clearLayers();
-		map._map._searchPlaces.clearLayers();
-		map._map._lastLocation = undefined;
+		map._myPlacesLayer.clearLayers();
+		map._routesLayer.clearLayers();
+		map._searchPlaces.clearLayers();
+		map._lastLocation = undefined;
 
 		$( '.leaflet-control-geocoder-icon' ).click();
 	});
