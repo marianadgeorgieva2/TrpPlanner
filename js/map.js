@@ -1,6 +1,8 @@
 var map = {},
 	$doc = $( document );
 
+eventy.eventEnable( map );
+
 
 map.init = function() {
 	this.baseInit();
@@ -11,7 +13,7 @@ map.init = function() {
 	this.enlargePopupEventListener();
 	map.closePopupEventListener();
 	map.editPlaceEventListener();
-	map.updatePlaceEventListener();
+	map.updatePlaceEventListeners();
 	map.deletePlaceEventListener();
 	map.showPlacesEventListener();
 
@@ -286,7 +288,7 @@ map.editPlaceEventListener = function() {
 };
 
 // event listeners for all place fields
-map.updatePlaceEventListener = function() {
+map.updatePlaceEventListeners = function() {
 	$doc.on( 'change', '.place-title', function() {
 		var $popup = $( '.my-place-big-popup' ),
 			title = $( this ).val(),
@@ -317,6 +319,12 @@ map.updatePlaceEventListener = function() {
 			$( '.place-img-preview' ).attr( 'src', imgVal );
 			myPlace.setImg( imgVal );
 			myPlace.setMarkerIcon();
+		});
+	});
+
+	map.addEventListener( 'update-marker-coords', function( e ) {
+		requests.updatePlace( e.id, 'coords', e.coords, function successCallback () {
+			toastr.success( 'Marker location updated!' );
 		});
 	});
 };

@@ -41,15 +41,28 @@ MyPlace.prototype.setMarkerIcon = function() {
 	};
 
 	markerImg.onerror = function() {
-		
+
 	};
 };
 
 
 MyPlace.prototype.getMarker = function() {
-	this._currentMarker = L.marker( this._coords, {
-		draggable: true,
-	}).bindPopup( this.getMarkerPopupContent() );
+	var _this = this,
+		marker = L.marker( this._coords, {
+			draggable: true,
+		}).bindPopup( this.getMarkerPopupContent() ),
+		newLocation = null;
+
+
+	marker.on( 'dragend', function( e ) {
+		newLocation = e.target._latlng;
+
+		map.triggerEvent( 'update-marker-coords', { id: _this._id, coords: newLocation } );
+
+		_this.setCoords( newLocation );
+	});
+
+	this._currentMarker = marker;
 
 	this.setMarkerIcon();
 
@@ -66,7 +79,7 @@ MyPlace.prototype.getMarkerPopupContent = function() {
 							'<h4 class="popup-title">' + ( this._title ? this._title : 'My Place' ) + '</h4>' +
 							'<img src="img/zoom.svg" />' +
 						'</div>';
-}
+};
 
 MyPlace.prototype.getMarkerBigPopupContent = function() {
 	return '<div id="' + this._id + '" class="my-place-big-popup" data-coords="' + this._coords + '">' +
@@ -78,25 +91,29 @@ MyPlace.prototype.getMarkerBigPopupContent = function() {
 							'<div class="delete-place-icon"></div>' +
 						'</div>' +
 						'<div class="close-popup"></div>';
-}
+};
 
 
 MyPlace.prototype.setImg = function( img ) {
 	this._img = img;
-}
+};
 
 MyPlace.prototype.setInfo = function( info ) {
 	this._info = info;
-}
+};
 
 MyPlace.prototype.setTitle = function( title ) {
 	this._title = title;
+};
+
+MyPlace.prototype.setCoords = function( coords ) {
+	this._coords = coords;
 }
 
 MyPlace.prototype.getCurrentMarker = function() {
 	return this._currentMarker;
-}
+};
 
 MyPlace.prototype.getCoords = function() {
 	return this._coords;
-}
+};
