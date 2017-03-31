@@ -33,10 +33,12 @@ map.baseInit = function() {
 	this._searchPlaces = L.featureGroup( [] );
 	this._routesLayer = L.featureGroup( [] );
 	this._myPlacesLayer = L.featureGroup( [] );
+	this._circleLayer = L.featureGroup( [] );
 
 	this._map.addLayer( this._searchPlaces );
 	this._map.addLayer( this._routesLayer );
 	this._map.addLayer( this._myPlacesLayer );
+	this._map.addLayer( this._circleLayer );
 
 	mapTileLayer.addTo( this._map );
 };
@@ -58,6 +60,7 @@ map.geocoderInit = function() {
 	        map._searchPlaces.addLayer( marker );
 
 	        if( lastLocation ) {
+	        	map._circleLayer.clearLayers();
 	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
 	        }
 	        else {
@@ -108,9 +111,9 @@ map.drawSinglePointCircle = function ( point ) {
 	var radius = this._distance * 1000, // in metres
 		circle = L.circle( point, { radius: radius } );
 
-	this._routesLayer.addLayer ( L.featureGroup( [ circle ] ) );
+	this._circleLayer.addLayer ( L.featureGroup( [ circle ] ) );
 	this._myPlacesLayer.addLayer ( L.featureGroup( map.getReachablePlaces( circle ) ) );
-	this._map.fitBounds( this._routesLayer.getBounds() );
+	this._map.fitBounds( this._circleLayer.getBounds() );
 };
 
 map.updateDistanceLabel = function( distance ) {
@@ -149,6 +152,7 @@ map.clearMapEventListener = function() {
 map.clearMap = function() {
 	map._myPlacesLayer.clearLayers();
 	map._routesLayer.clearLayers();
+	map._circleLayer.clearLayers();
 	map._searchPlaces.clearLayers();
 	map._lastLocation = undefined;
 };
@@ -231,6 +235,8 @@ map.addNewPlaceEventListener = function() {
 				coords,
 				function success( data ) {
 					var newPlace = new MyPlace( data );
+
+					map._myPlacesLayer.addLayer( newPlace.getMarker() );
 				} );
 		}
 		else {
