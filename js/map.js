@@ -72,12 +72,12 @@ map.geocoderInit = function() {
 map.getRouteWithBoxes = function( loc ) {
 	requests.getRoute( loc, function successCallback2( routes ) {
 		for( var i in routes ) {
-			map.drawRoutePolylineAndBoxes( routes[ i ].geometry );
+			map.drawRoutePolylineAndBoxes( routes[ i ].geometry, routes[ i ].distance );
 		}
 	});
 };
 
-map.drawRoutePolylineAndBoxes = function ( route ) {
+map.drawRoutePolylineAndBoxes = function ( route, distance ) {
 	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
 		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
 		bounds = new L.LatLngBounds( [] ),
@@ -93,11 +93,19 @@ map.drawRoutePolylineAndBoxes = function ( route ) {
 		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
 	}
 
-	this._myPlacesLayer.addLayer( L.featureGroup( reachablePlaces ) );
+	boxesLayer.on( 'click', function() {
+		map.updateDistanceLabel( distance );
+	} );
+
+	this._myPlacesLayer.addLayer ( L.featureGroup( reachablePlaces ) );
 
 	this._routesLayer.addLayer ( L.featureGroup( [ routePolyline, boxesLayer ] ) );
 
 	this._map.fitBounds( bounds );
+};
+
+map.updateDistanceLabel = function( distance ) {
+	$( '.distance-info' ).html( distance / 1000 + 'km' );
 };
 
 
