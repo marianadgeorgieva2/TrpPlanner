@@ -61,7 +61,7 @@ map.geocoderInit = function() {
 	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
 	        }
 	        else {
-	        	_this._map.panTo( center );
+	        	map.drawSinglePointCircle( center );
 	        }
 
 	        _this._lastLocation = center;
@@ -77,7 +77,7 @@ map.getRouteWithBoxes = function( loc ) {
 	});
 };
 
-map.drawRoutePolylineAndBoxes = function ( route, distance ) {
+map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
 		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
 		bounds = new L.LatLngBounds( [] ),
@@ -94,7 +94,7 @@ map.drawRoutePolylineAndBoxes = function ( route, distance ) {
 	}
 
 	boxesLayer.on( 'click', function() {
-		map.updateDistanceLabel( distance );
+		map.updateDistanceLabel( routeDistance );
 	} );
 
 	this._myPlacesLayer.addLayer ( L.featureGroup( reachablePlaces ) );
@@ -102,6 +102,14 @@ map.drawRoutePolylineAndBoxes = function ( route, distance ) {
 	this._routesLayer.addLayer ( L.featureGroup( [ routePolyline, boxesLayer ] ) );
 
 	this._map.fitBounds( bounds );
+};
+
+map.drawSinglePointCircle = function ( point ) {
+	var radius = this._distance * 1000, // in metres
+		circle = L.circle( point, { radius: radius } );
+
+	this._routesLayer.addLayer ( L.featureGroup( [ circle ] ) );
+	this._map.fitBounds( this._routesLayer.getBounds() );
 };
 
 map.updateDistanceLabel = function( distance ) {
