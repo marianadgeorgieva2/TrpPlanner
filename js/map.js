@@ -109,6 +109,7 @@ map.drawSinglePointCircle = function ( point ) {
 		circle = L.circle( point, { radius: radius } );
 
 	this._routesLayer.addLayer ( L.featureGroup( [ circle ] ) );
+	this._myPlacesLayer.addLayer ( L.featureGroup( map.getReachablePlaces( circle ) ) );
 	this._map.fitBounds( this._routesLayer.getBounds() );
 };
 
@@ -117,13 +118,13 @@ map.updateDistanceLabel = function( distance ) {
 };
 
 
-map.getReachablePlaces = function( rectangle ) {
+map.getReachablePlaces = function( shape ) {
 	var myPlaces = myPlacesDictionary.getAllPlaces(),
 		layer = {},
 		markers = [];
 
 	for( var i in myPlaces ) {
-		if( rectangle.getBounds().contains( myPlaces[ i ].getCoords() ) ) {
+		if( shape.getBounds().contains( myPlaces[ i ].getCoords() ) ) {
 			markers.push( myPlaces[ i ].getMarker() );
 		}
 	}
