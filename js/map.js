@@ -363,4 +363,12 @@ map.showPlacesEventListener = function() {
 			map._distance = value;
 		}
 	});
+
+	$doc.on( 'click', '.show-places-menu, .show-places', function( e ) {
+		e.stopPropagation();
+	});
+
+	$doc.on( 'click', function() {
+		$showPlacesMenu.addClass( 'hidden' );
+	});
 };
