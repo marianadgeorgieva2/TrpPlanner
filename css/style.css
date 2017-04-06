@@ -54,12 +54,25 @@ body {
 .show-places-menu {
 	position: absolute;
 	width: 200px;
-	height: 200px;
+	height: 260px;
 	padding: 30px;
 	top: 80px;
 	left: 200px;
 	background: #fff;
 	z-index: 500;
+}
+
+.places-distance-time {
+	padding: 0;
+	list-style: none;
+}
+
+.places-distance-time-element {
+	padding: 6px;
+	margin: 4px 0;
+	background: green;
+	color: #fff;
+	cursor: pointer;
 }
 
 .distance-container {
