@@ -15,7 +15,9 @@ map.init = function() {
 	map.editPlaceEventListener();
 	map.updatePlaceEventListeners();
 	map.deletePlaceEventListener();
+
 	map.showPlacesEventListener();
+	map.showAllPlacesEventListener();
 
 	map.startNewRouteEventListener();
 	map.clearMapEventListener();
@@ -239,7 +241,9 @@ map.addNewPlaceEventListener = function() {
 					var newPlace = new MyPlace( data );
 
 					map._myPlacesLayer.addLayer( newPlace.getMarker() );
-				} );
+
+					toastr.success( 'Added a new place!' );
+				});
 		}
 		else {
 			toastr.error( 'You already have a place on this location!' );
@@ -370,5 +374,11 @@ map.showPlacesEventListener = function() {
 
 	$doc.on( 'click', function() {
 		$showPlacesMenu.addClass( 'hidden' );
+	});
+};
+
+map.showAllPlacesEventListener = function() {
+	$doc.on( 'click', '.show-all-places', function() {
+		map.showMyPlaces();
 	});
 };
