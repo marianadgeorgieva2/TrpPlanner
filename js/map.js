@@ -368,6 +368,12 @@ map.showPlacesEventListener = function() {
 		}
 	});
 
+	$doc.on( 'click', '.places-distance-time-element', function() {
+		var distanceInKm = $( this ).data( 'km' );
+
+		$( '.places-distance' ).val( distanceInKm );
+	});
+
 	$doc.on( 'click', '.show-places-menu, .show-places', function( e ) {
 		e.stopPropagation();
 	});
