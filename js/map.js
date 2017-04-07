@@ -408,5 +408,9 @@ map.showAllPlacesEventListener = function() {
 map.saveRouteEventListener = function() {
 	$doc.on( 'click', '.save-route', function() {
 		console.log( map._routeEndsLocations );
+
+		requests.addNewRoute( map._routeEndsLocations, function successCallback () {
+			toastr.success( 'New route saved successfully!' );
+		} );
 	});
 };

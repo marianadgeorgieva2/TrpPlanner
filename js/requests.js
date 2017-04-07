@@ -80,4 +80,21 @@ requests.getRoute = function( loc, successCallback ) {
 };
 
 
+// routes
+
+requests.addNewRoute = function( routeEnds, successCallback ) {
+	$.ajax({
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-routes?apiKey=' + API_KEY,
+		data: JSON.stringify( { routeEnds : routeEnds } ),
+		type: 'POST',
+		contentType: 'application/json',
+		success: function( data ) {
+			if( typeof successCallback === 'function' ) {
+				successCallback( data );
+			}
+		}
+	});
+};
+
+
 
