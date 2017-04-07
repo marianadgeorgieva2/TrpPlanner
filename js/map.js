@@ -101,8 +101,10 @@ map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 	}
 
 	boxesLayer.on( 'click', function() {
-		map.updateDistanceLabel( routeDistance );
+		map.updateCurrentRouteDistanceLabel( routeDistance );
 	} );
+
+	map.updateRouteDistanceLabel( routeDistance );
 
 	this._myPlacesLayer.addLayer ( L.featureGroup( reachablePlaces ) );
 
@@ -120,8 +122,16 @@ map.drawSinglePointCircle = function ( point ) {
 	this._map.fitBounds( this._circleLayer.getBounds() );
 };
 
-map.updateDistanceLabel = function( distance ) {
-	$( '.distance-info' ).html( distance / 1000 + 'km' );
+map.updateCurrentRouteDistanceLabel = function( distance ) {
+	$( '.current-route-distance-info' ).html( distance / 1000 + 'km' );
+};
+
+map.updateRouteDistanceLabel = function( distance ) {
+	var $distanceInfo = $( '.route-distance-info' ),
+		distanceInfoVal = $distanceInfo.html().replace( 'km', '' ),
+		currentDistance = distanceInfoVal ? parseFloat( distanceInfoVal ) : 0;
+
+	$( '.route-distance-info' ).html( ( distance / 1000 + currentDistance ).toFixed( 3 ) + 'km' );
 };
 
 
