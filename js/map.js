@@ -21,6 +21,8 @@ map.init = function() {
 
 	map.startNewRouteEventListener();
 	map.clearMapEventListener();
+
+	map.saveRouteEventListener();
 };
 
 // map and tile layer
@@ -33,6 +35,8 @@ map.baseInit = function() {
 	this._map = L.map( 'map' ).setView( [ 51.505, -0.09 ], 13 );
 
 	this._distance = 10;
+
+	this._routeEndsLocations = []; // all serached places from the current route
 
 	this._searchPlaces = L.featureGroup( [] );
 	this._routesLayer = L.featureGroup( [] );
@@ -72,6 +76,7 @@ map.geocoderInit = function() {
 	        }
 
 	        _this._lastLocation = center;
+	        _this._routeEndsLocations.push( center );
 	    })
 	    .addTo( _this._map );
 };
@@ -169,6 +174,7 @@ map.clearMap = function() {
 	map._circleLayer.clearLayers();
 	map._searchPlaces.clearLayers();
 	map._lastLocation = undefined;
+	map._routeEndsLocations = [];
 };
 
 // the control in the right for searching routes
@@ -396,5 +402,11 @@ map.showPlacesEventListener = function() {
 map.showAllPlacesEventListener = function() {
 	$doc.on( 'click', '.show-all-places', function() {
 		map.showMyPlaces();
+	});
+};
+
+map.saveRouteEventListener = function() {
+	$doc.on( 'click', '.save-route', function() {
+		console.log( map._routeEndsLocations );
 	});
 };

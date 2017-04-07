@@ -87,6 +87,15 @@ body {
 }
 
 
+/*routes*/
+.save-route {
+	position: absolute;
+	top: 20px;
+	right: 300px;
+	cursor: pointer;
+}
+
+
 /*leaflet routing machine*/
 .leaflet-routing-alt table {
 	display: none;
