@@ -96,5 +96,16 @@ requests.addNewRoute = function( routeEnds, successCallback ) {
 	});
 };
 
+requests.getAllRoutes = function( successCallback ) {
+	$.ajax({
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-routes?apiKey=' + API_KEY,
+		success: function( data ) {
+			if( typeof successCallback === 'function' ) {
+				successCallback( data );
+			}
+		}
+	});
+};
+
 
 
