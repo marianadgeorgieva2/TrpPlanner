@@ -7,6 +7,7 @@ menu.init = function() {
 
 	menu.getAllRoutes();
 	menu.toggleRoutesMenuEventListener();
+	menu.showRouteFromTheMenu();
 } 
 
 
@@ -31,13 +32,21 @@ menu.getAllRoutes = function() {
 }
 
 menu.updateRoutesMenu = function( routes ) {
-	var currentRoute = null
+	var currentRoute = null,
+		routeLeftEnd = null,
+		routeRightEnd = null,
 		markup = '';
 
 	for( var i in routes ) {
 		currentRoute = routes[ i ];
 
-		markup += '<li id="' + currentRoute._id.$oid + '" data-route-ends="' + routes[ i ].routeEnds + '">Route</li>'
+		if( currentRoute.routeEnds.length ) {
+			routeLeftEnd = currentRoute.routeEnds[ 0 ];
+			routeRightEnd = currentRoute.routeEnds[ 1 ];
+
+			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
+				routeLeftEnd.lat + ',' + routeLeftEnd.lng + ';' + routeLeftEnd.lat + ',' + routeLeftEnd.lng + '">Route</li>';
+		}
 	}
 
 	$( '.routes-menu' ).html( markup );
@@ -56,5 +65,15 @@ menu.toggleRoutesMenuEventListener = function() {
 
 	$doc.on( 'click', function() {
 		$routesMenu.addClass( 'hidden' );
+	});
+}
+
+menu.showRouteFromTheMenu = function() {
+	var routeEnds = null;
+
+	$doc.on( 'click', '.route-menu-item', function() {
+		routeEnds = $( this ).data( 'route-ends' );
+
+		map.getRouteWithBoxes( routeEnds );
 	});
 }
