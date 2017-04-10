@@ -8,7 +8,7 @@ menu.init = function() {
 	menu.getAllRoutes();
 	menu.toggleRoutesMenuEventListener();
 	menu.showRouteFromTheMenu();
-} 
+}
 
 
 menu.getAllPlaces = function() {
@@ -45,7 +45,7 @@ menu.updateRoutesMenu = function( routes ) {
 			routeRightEnd = currentRoute.routeEnds[ 1 ];
 
 			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
-				routeLeftEnd.lat + ',' + routeLeftEnd.lng + ';' + routeLeftEnd.lat + ',' + routeLeftEnd.lng + '">Route</li>';
+				routeLeftEnd.lng + ',' + routeLeftEnd.lat + ';' + routeRightEnd.lng + ',' + routeRightEnd.lat + '">Route</li>';
 		}
 	}
 
@@ -74,6 +74,7 @@ menu.showRouteFromTheMenu = function() {
 	$doc.on( 'click', '.route-menu-item', function() {
 		routeEnds = $( this ).data( 'route-ends' );
 
+		map.clearMap();
 		map.getRouteWithBoxes( routeEnds );
 	});
 }

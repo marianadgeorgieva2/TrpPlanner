@@ -63,7 +63,7 @@ requests.deletePlace = function( id, successCallback ) {
 
 requests.getRoute = function( loc, successCallback ) {
 	$.ajax({
-		url: 'https://router.project-osrm.org/route/v1/driving/' + loc.join( ';' ),
+		url: 'https://router.project-osrm.org/route/v1/driving/' + loc,
 		data: {
 			overview: 'full',
 			steps: false,

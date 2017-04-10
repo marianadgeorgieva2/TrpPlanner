@@ -69,7 +69,7 @@ map.geocoderInit = function() {
 
 	        if( lastLocation ) {
 	        	map._circleLayer.clearLayers();
-	        	map.getRouteWithBoxes( [ lastLocation.lng + ',' + lastLocation.lat, center.lng + ',' + center.lat ] );
+	        	map.getRouteWithBoxes( lastLocation.lng + ',' + lastLocation.lat + ';' + center.lng + ',' + center.lat );
 	        }
 	        else {
 	        	map.drawSinglePointCircle( center );
