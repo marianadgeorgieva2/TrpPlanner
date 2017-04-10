@@ -19,8 +19,6 @@ menu.getAllPlaces = function() {
 		for( var i in data ) {
 			currenPlace = new MyPlace( data[ i ] );
 		}
-
-		map.showMyPlaces();
 	});
 }
 

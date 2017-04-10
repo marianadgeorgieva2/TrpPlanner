@@ -29,6 +29,29 @@ body {
 	border-bottom: 1px solid #257985;
 	background: #fff;
 }
+#bottom-controls {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	z-index: 3000;
+}
+.controls-list {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+.controls-list-item {
+	display: inline-block;
+	padding: 14px 28px;
+	background: #fff;
+	cursor: pointer;
+}
+.controls-list-item:hover {
+	color: #138d90;
+}
 
 .logo {
 	float: left;
@@ -88,18 +111,6 @@ body {
 
 
 /*routes*/
-.save-route {
-	position: absolute;
-	top: 20px;
-	right: 300px;
-	cursor: pointer;
-}
-.all-routes {
-	position: absolute;
-	top: 40px;
-	right: 300px;
-	cursor: pointer;
-}
 .routes-menu {
 	position: absolute;
 	height: 100px;
