@@ -8,6 +8,7 @@ menu.init = function() {
 	menu.getAllRoutes();
 	menu.toggleRoutesMenuEventListener();
 	menu.showRouteFromTheMenu();
+	menu.deleteRouteEventListener();
 }
 
 
@@ -45,7 +46,9 @@ menu.updateRoutesMenu = function( routes ) {
 			routeRightEnd = currentRoute.routeEnds[ 1 ];
 
 			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
-				routeLeftEnd.lng + ',' + routeLeftEnd.lat + ';' + routeRightEnd.lng + ',' + routeRightEnd.lat + '">Route</li>';
+							routeLeftEnd.lng + ',' + routeLeftEnd.lat + ';' + routeRightEnd.lng + ',' + routeRightEnd.lat + '">Route' +
+							'<span title="delete" class="delete-route"></span>'
+						'</li>';
 		}
 	}
 
@@ -76,5 +79,16 @@ menu.showRouteFromTheMenu = function() {
 
 		map.clearMap();
 		map.getRouteWithBoxes( routeEnds );
+	});
+}
+
+menu.deleteRouteEventListener = function() {
+	$doc.on( 'click', '.delete-route', function() {
+		var $routeListItem = $( this ).parents( 'li' ),
+			routeId = $routeListItem.attr( 'id' );
+
+		requests.deleteRoute( routeId, function successCallback() {
+			$routeListItem.remove();
+		});
 	});
 }

@@ -107,5 +107,19 @@ requests.getAllRoutes = function( successCallback ) {
 	});
 };
 
+requests.deleteRoute = function( id, successCallback ) {
+	$.ajax( {
+		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-routes/' + id + '?apiKey=' + API_KEY,
+		type: "DELETE",
+		async: true,
+		timeout: 300000,
+		success: function ( data ) {
+			if( typeof successCallback === 'function' ) {
+				successCallback( data );
+			}
+		},
+		error: function (xhr, status, err) { } } );
+};
+
 
 
