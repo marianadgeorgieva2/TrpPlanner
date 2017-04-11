@@ -22,6 +22,10 @@ body {
 	border: none;
 }
 
+.leaflet-top {
+	top: 60px;
+}
+
 /*top controls*/
 #top-controls {
 	position: absolute;
