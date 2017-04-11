@@ -14,36 +14,41 @@
 
 	</head>
 	<body>
+		<!-- <div class="logo">TripPlanner</div> -->
 		<div id="top-controls">
-			<div class="logo">TripPlanner</div>
-			<div title="add new place" class="add-new-place">+</div>
-			<div class="add-new-place-menu"></div>
-			<div title="show places" class="show-places">Show close places</div>
-			<div class="show-places-menu hidden">
-				<label>
-					Distance (km)
-					<input type="text" class="places-distance" value="10"/>
-				</label>
-				<h4> Or show places that are </h4>
-				<ul class="places-distance-time">
-					<li class="places-distance-time-element" data-km="4" > 5 minutes away </li> <!-- 4km  (50km/h)-->
-					<li class="places-distance-time-element" data-km="8" > 10 minutes away </li> <!-- 8km  (50km/h)-->
-				</ul>
-			</div>
-			<div title="show places" class="show-all-places">Show all places</div>
+			<ul class="controls-list">
+				<li class="controls-list-item show-places" title="Set the distance">
+					<span class="controls-list-item-title">Close places distance</span>
+					<div class="show-places-menu hidden">
+						<label>
+							Distance (km)
+							<input type="text" class="places-distance" value="10"/>
+						</label>
+						<h4> Or show places that are </h4>
+						<ul class="places-distance-time">
+							<li class="places-distance-time-element" data-km="4" > 5 minutes away </li> <!-- 4km  (50km/h)-->
+							<li class="places-distance-time-element" data-km="8" > 10 minutes away </li> <!-- 8km  (50km/h)-->
+						</ul>
+					</div>
+				</li>
+				<li class="controls-list-item how-all-places" title="show all saved places">
+					<span class="controls-list-item-title">Show all places</span>
+				</li>
+				<li class="controls-list-item save-route" title="remove everything from the map">
+					<span class="controls-list-item-title">Clear map</span>
+				</li>
+			</ul>
 
-			<div title="start new route" class="clear-map">Clear map</div>
-
-
-
+			<!-- <div title="add new place" class="add-new-place">+</div> -->
+			<!-- <div class="add-new-place-menu"></div> -->
 		</div>
 		<div id="bottom-controls">
 			<ul class="controls-list">
-				<li class="controls-list-item all-routes" title="saved routes">
+				<li class="controls-list-item all-routes" title="all saved routes">
 					<span class="controls-list-item-title">My routes</span>
 					<ul class="routes-menu hidden"></ul>
 				</li>
-				<li class="controls-list-item start-new-route" title="start new route">
+				<li class="controls-list-item start-new-route" title="clear map and start new route">
 					<span class="controls-list-item-title">Start new route</span>
 				</li>
 				<li class="controls-list-item save-route" title="save current route">
