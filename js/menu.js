@@ -5,10 +5,20 @@ var menu  = {},
 menu.init = function() {
 	this.getAllPlaces();
 
+	menu.hideStartScreen();
+
 	menu.getAllRoutes();
 	menu.toggleRoutesMenuEventListener();
 	menu.showRouteFromTheMenu();
 	menu.deleteRouteEventListener();
+}
+
+menu.hideStartScreen = function() {
+	var $startScreen = $( '.start-screen' );
+
+	$doc.on( 'click', function() {
+		$startScreen.addClass( 'hidden' );
+	} );
 }
 
 
