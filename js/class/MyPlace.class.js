@@ -77,7 +77,8 @@ MyPlace.prototype.updateMarkerPopup = function() {
 MyPlace.prototype.getMarkerPopupContent = function() {
 	return '<div class="my-place-popup" data-coords="' + this._coords + '">' +
 							'<h4 class="popup-title">' + ( this._title ? this._title : 'My Place' ) + '</h4>' +
-							'<img src="img/zoom.svg" />' +
+							'more info' +
+							'<img class="popup-zoom-icon" src="img/zoom.svg" />' +
 						'</div>';
 };
 
