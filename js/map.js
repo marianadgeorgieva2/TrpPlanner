@@ -90,14 +90,22 @@ map.showAllRouteEndsMarkers = function ( routeEnds ) {
 		routeEndsArr = routeEnds.split( ';' );
 
 	routeEndsArr = routeEndsArr.map( function( el ) {
-		return el.split( ',' ).reverse();
+		var coords = el.split( ',' ).reverse();
+
+		return {
+			lat: coords[ 0 ],
+			lng: coords[ 1 ]
+		}
 	});
 
 	for( var i in routeEndsArr ) {
 		marker = map.getRouteEndMarker( routeEndsArr[ i ] );
 
 		map._searchPlaces.addLayer( marker );
+
 	}
+	map._lastLocation = routeEndsArr[ i ];
+	map._routeEndsLocations.push( routeEndsArr[ i ] );
 }
 
 map.getRouteWithBoxes = function( loc ) {

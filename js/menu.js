@@ -94,6 +94,8 @@ menu.showRouteFromTheMenu = function() {
 		map.clearMap();
 		map.getRouteWithBoxes( routeEnds );
 		map.showAllRouteEndsMarkers( routeEnds );
+
+		$( '.routes-menu' ).addClass( 'hidden' );
 	});
 }
 
