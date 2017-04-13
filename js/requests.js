@@ -82,10 +82,10 @@ requests.getRoute = function( loc, successCallback ) {
 
 // routes
 
-requests.addNewRoute = function( routeEnds, successCallback ) {
+requests.addNewRoute = function( routeEnds, routeName, successCallback ) {
 	$.ajax({
 		url: 'https://api.mlab.com/api/1/databases/fav-trip-planner/collections/my-routes?apiKey=' + API_KEY,
-		data: JSON.stringify( { routeEnds : routeEnds } ),
+		data: JSON.stringify( { routeEnds : routeEnds, routeName: routeName } ),
 		type: 'POST',
 		contentType: 'application/json',
 		success: function( data ) {

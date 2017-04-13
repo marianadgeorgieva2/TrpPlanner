@@ -50,7 +50,7 @@ menu.updateRoutesMenu = function( routes ) {
 		if( currentRoute.routeEnds.length ) {
 
 			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
-							getRouteEndsMarkup( currentRoute.routeEnds ) + '">Route' +
+							getRouteEndsMarkup( currentRoute.routeEnds ) + '">' + currentRoute.routeName +
 							'<span title="delete" class="delete-route"></span>'
 						'</li>';
 		}
@@ -147,11 +147,20 @@ map.showAllPlacesEventListener = function() {
 };
 
 map.saveRouteEventListener = function() {
-	$doc.on( 'click', '.save-route', function() {
-		console.log( map._routeEndsLocations );
+	var $routeNameContainer = $( '.route-name-container' );
 
-		requests.addNewRoute( map._routeEndsLocations, function successCallback () {
-			toastr.success( 'New route saved successfully!' );
-		} );
+	$doc.on( 'click', '.save-route', function() {
+		$routeNameContainer.removeClass( 'hidden' );
 	});
+
+	$doc.on( 'change', '.route-name-input', function() {
+		var routeName = $( this ).val();
+
+		if( routeName ) {
+			requests.addNewRoute( map._routeEndsLocations, routeName, function successCallback () {
+				toastr.success( 'New route saved successfully!' );
+				$routeNameContainer.addClass( 'hidden' );
+			} );
+		}
+	})
 };
