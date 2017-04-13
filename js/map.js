@@ -117,7 +117,7 @@ map.getRouteWithBoxes = function( loc ) {
 };
 
 map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
-	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ) ), // OSRM polyline decoding
+	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ), { color: "#138d90" } ), // OSRM polyline decoding
 		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
 		bounds = new L.LatLngBounds( [] ),
 		boxpolys = new Array( boxes.length ),
@@ -126,7 +126,7 @@ map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 		reachablePlaces = [];
 
 	for ( var i in boxes ) {
-		currentRectangle = L.rectangle( boxes[ i ], { color: "#ff7800", weight: 1 } ).addTo( boxesLayer );
+		currentRectangle = L.rectangle( boxes[ i ], { color: "#138d90", opacity: 0.1, weight: 1 } ).addTo( boxesLayer );
 		bounds.extend( boxes[ i ] );
 
 		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
@@ -260,9 +260,9 @@ map.getWaypointMarkerPopup = function( latlng ) {
 map.getCustomIcon = function() {
 	var CustomIcon = L.Icon.extend({
 			options: {
-				iconSize: [ 60, 60 ],
-				iconAnchor: [ 30, 60 ],
-				popupAnchor: [ 0, -70 ]
+				iconSize: [ 30, 30 ],
+				iconAnchor: [ 15, 30 ],
+				popupAnchor: [ 0, -40 ]
 			}
 	});
 

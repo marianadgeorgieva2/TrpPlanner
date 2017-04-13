@@ -21,7 +21,7 @@ MyPlace.prototype.setMarkerIcon = function() {
 
 	markerImg.src = ( this._img ? this._img : defaultIconSrc );
 	markerImg.onload = function() {
-		markerImg = utils.limitImageSize( markerImg, 60, markerImg.width, markerImg.height );
+		markerImg = utils.limitImageSize( markerImg, 40, markerImg.width, markerImg.height );
 
 		imgWidth = this.width;
 		imgHeight = this.height;
