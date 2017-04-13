@@ -42,25 +42,31 @@ menu.getAllRoutes = function() {
 
 menu.updateRoutesMenu = function( routes ) {
 	var currentRoute = null,
-		routeLeftEnd = null,
-		routeRightEnd = null,
 		markup = '';
 
 	for( var i in routes ) {
 		currentRoute = routes[ i ];
 
 		if( currentRoute.routeEnds.length ) {
-			routeLeftEnd = currentRoute.routeEnds[ 0 ];
-			routeRightEnd = currentRoute.routeEnds[ 1 ];
 
 			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
-							routeLeftEnd.lng + ',' + routeLeftEnd.lat + ';' + routeRightEnd.lng + ',' + routeRightEnd.lat + '">Route' +
+							getRouteEndsMarkup( currentRoute.routeEnds ) + '">Route' +
 							'<span title="delete" class="delete-route"></span>'
 						'</li>';
 		}
 	}
 
 	$( '.routes-menu' ).html( markup );
+}
+
+function getRouteEndsMarkup( routeEnds ) {
+	var markup = '';
+
+	for( var i in routeEnds ) {
+		markup += routeEnds[ i ].lng + ',' + routeEnds[ i ].lat + ';';
+	}
+
+	return markup.substring( 0, markup.length - 1 ); // remove the last ;
 }
 
 menu.toggleRoutesMenuEventListener = function() {
@@ -85,6 +91,8 @@ menu.showRouteFromTheMenu = function() {
 	$doc.on( 'click', '.route-menu-item', function() {
 		routeEnds = $( this ).data( 'route-ends' );
 
+		console.log( routeEnds );
+
 		map.clearMap();
 		map.getRouteWithBoxes( routeEnds );
 	});
@@ -100,3 +108,49 @@ menu.deleteRouteEventListener = function() {
 		});
 	});
 }
+
+map.showPlacesEventListener = function() {
+	var $showPlacesMenu = $( '.show-places-menu' );
+
+	$doc.on( 'click', '.show-places', function() {
+		$showPlacesMenu.toggleClass( 'hidden' );
+	});
+
+	$doc.on( 'change', '.places-distance', function() {
+		var value = $( this ).val();
+
+		if( value ) {
+			map._distance = value;
+		}
+	});
+
+	$doc.on( 'click', '.places-distance-time-element', function() {
+		var distanceInKm = $( this ).data( 'km' );
+
+		$( '.places-distance' ).val( distanceInKm );
+	});
+
+	$doc.on( 'click', '.show-places-menu, .show-places', function( e ) {
+		e.stopPropagation();
+	});
+
+	$doc.on( 'click', function() {
+		$showPlacesMenu.addClass( 'hidden' );
+	});
+};
+
+map.showAllPlacesEventListener = function() {
+	$doc.on( 'click', '.show-all-places', function() {
+		map.showMyPlaces();
+	});
+};
+
+map.saveRouteEventListener = function() {
+	$doc.on( 'click', '.save-route', function() {
+		console.log( map._routeEndsLocations );
+
+		requests.addNewRoute( map._routeEndsLocations, function successCallback () {
+			toastr.success( 'New route saved successfully!' );
+		} );
+	});
+};
