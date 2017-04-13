@@ -91,10 +91,9 @@ menu.showRouteFromTheMenu = function() {
 	$doc.on( 'click', '.route-menu-item', function() {
 		routeEnds = $( this ).data( 'route-ends' );
 
-		console.log( routeEnds );
-
 		map.clearMap();
 		map.getRouteWithBoxes( routeEnds );
+		map.showAllRouteEndsMarkers( routeEnds );
 	});
 }
 

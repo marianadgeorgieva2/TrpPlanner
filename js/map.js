@@ -59,11 +59,7 @@ map.geocoderInit = function() {
 	    .on( 'markgeocode', function( e ) {
 	        var lastLocation = _this._lastLocation,
 	        	center = e.geocode.center,
-	        	marker = L.marker( center, {
-					draggable: false,
-					icon: map.getCustomIcon(),
-					riseOnHover: true
-				}).bindPopup( map.getWaypointMarkerPopup( center ) );
+	        	marker = map.getRouteEndMarker( center );
 
 	        map._searchPlaces.addLayer( marker );
 
@@ -80,6 +76,29 @@ map.geocoderInit = function() {
 	    })
 	    .addTo( _this._map );
 };
+
+map.getRouteEndMarker = function( center ) {
+	return L.marker( center, {
+				draggable: false,
+				icon: map.getCustomIcon(),
+				riseOnHover: true
+			}).bindPopup( map.getWaypointMarkerPopup( center ) );
+}
+
+map.showAllRouteEndsMarkers = function ( routeEnds ) {
+	var marker = null,
+		routeEndsArr = routeEnds.split( ';' );
+
+	routeEndsArr = routeEndsArr.map( function( el ) {
+		return el.split( ',' ).reverse();
+	});
+
+	for( var i in routeEndsArr ) {
+		marker = map.getRouteEndMarker( routeEndsArr[ i ] );
+
+		map._searchPlaces.addLayer( marker );
+	}
+}
 
 map.getRouteWithBoxes = function( loc ) {
 	requests.getRoute( loc, function successCallback2( routes ) {
