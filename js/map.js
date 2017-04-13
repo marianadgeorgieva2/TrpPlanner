@@ -86,26 +86,16 @@ map.getRouteEndMarker = function( center ) {
 }
 
 map.showAllRouteEndsMarkers = function ( routeEnds ) {
-	var marker = null,
-		routeEndsArr = routeEnds.split( ';' );
+	var marker = null;
 
-	routeEndsArr = routeEndsArr.map( function( el ) {
-		var coords = el.split( ',' ).reverse();
-
-		return {
-			lat: coords[ 0 ],
-			lng: coords[ 1 ]
-		}
-	});
-
-	for( var i in routeEndsArr ) {
-		marker = map.getRouteEndMarker( routeEndsArr[ i ] );
+	for( var i in routeEnds ) {
+		marker = map.getRouteEndMarker( routeEnds[ i ] );
 
 		map._searchPlaces.addLayer( marker );
 
 	}
-	map._lastLocation = routeEndsArr[ i ];
-	map._routeEndsLocations.push( routeEndsArr[ i ] );
+	map._lastLocation = routeEnds[ i ];
+	map._routeEndsLocations.push( routeEnds[ i ] );
 }
 
 map.getRouteWithBoxes = function( loc ) {

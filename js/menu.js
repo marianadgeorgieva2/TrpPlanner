@@ -86,14 +86,33 @@ menu.toggleRoutesMenuEventListener = function() {
 }
 
 menu.showRouteFromTheMenu = function() {
-	var routeEnds = null;
+	var routeEnds = null,
+		routeEndsArr = [],
+		routeEndsLatLngs = [];
 
 	$doc.on( 'click', '.route-menu-item', function() {
 		routeEnds = $( this ).data( 'route-ends' );
+		routeEndsArr = routeEnds.split( ';' );
+
+		routeEndsLatLngs = routeEndsArr.map( function( el ) {
+			var coords = el.split( ',' ).reverse();
+
+			return {
+				lat: coords[ 0 ],
+				lng: coords[ 1 ]
+			}
+		});
 
 		map.clearMap();
-		map.getRouteWithBoxes( routeEnds );
-		map.showAllRouteEndsMarkers( routeEnds );
+		map.showAllRouteEndsMarkers( routeEndsLatLngs );
+
+
+		if( routeEndsLatLngs.length === 1 ) {
+			map.drawSinglePointCircle( routeEndsLatLngs[ 0 ] );
+		}
+		else {
+			map.getRouteWithBoxes( routeEnds );
+		}
 
 		$( '.routes-menu' ).addClass( 'hidden' );
 	});
