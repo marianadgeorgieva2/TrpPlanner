@@ -70,6 +70,11 @@ body {
 	cursor: pointer;
 }
 
+.popup-link {
+	color: #acacac;
+	font-weight: bold;
+}
+
 /*top controls*/
 #top-controls {
 	position: absolute;
@@ -181,7 +186,7 @@ body {
 .places-distance-time-element {
 	padding: 6px;
 	margin: 4px 0;
-	background: green;
+	background: #fd3c3c;
 	color: #fff;
 	cursor: pointer;
 }
