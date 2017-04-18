@@ -145,7 +145,7 @@ map.drawSinglePointCircle = function ( point ) {
 };
 
 map.updateCurrentRouteDistanceLabel = function( distance ) {
-	$( '.current-route-distance-info' ).html( distance / 1000 + 'km' );
+	$( '.current-route-distance-info' ).html( ( distance / 1000 ).toFixed( 3 ) + 'km' );
 };
 
 map.updateRouteDistanceLabel = function( distance ) {

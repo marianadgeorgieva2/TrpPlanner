@@ -42,7 +42,8 @@ body {
 	font-size: 36px;
 }
 .start-screen-info {
-	color: #fff;
+	color: #fd3c3c;
+	background: rgba(237, 237, 237, 0.36);
 }
 
 /*map*/
@@ -274,7 +275,7 @@ body {
 
 .close-popup {
 	position: absolute;
-	top: 20px;
+	top: 85px;
 	right: 20px;
 	width: 40px;
 	height: 40px;
