@@ -192,7 +192,14 @@ map.clearMap = function() {
 	map._searchPlaces.clearLayers();
 	map._lastLocation = undefined;
 	map._routeEndsLocations = [];
+
+	map.clearRouteDistancesMarkup();
 };
+
+map.clearRouteDistancesMarkup = function() {
+	$( '.current-route-distance-info' ).html( '' );
+	$( '.route-distance-info' ).html( '' );
+}
 
 // the control in the right for searching routes
 // map.routingControlInit = function() {

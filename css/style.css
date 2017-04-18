@@ -199,6 +199,9 @@ body {
 	z-index: 500;
 	box-shadow: 1px 1px 6px #949494;
 }
+.distance-sub-container {
+	height: 80px;
+}
 .distance-container p {
 	color: #138d90;
 }
