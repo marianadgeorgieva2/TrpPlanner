@@ -147,7 +147,7 @@ map.showPlacesEventListener = function() {
 	$doc.on( 'click', '.places-distance-time-element', function() {
 		var distanceInKm = $( this ).data( 'km' );
 
-		$( '.places-distance' ).val( distanceInKm );
+		$( '.places-distance' ).val( distanceInKm ).trigger( 'change' );
 	});
 
 	$doc.on( 'click', '.show-places-menu, .show-places', function( e ) {
