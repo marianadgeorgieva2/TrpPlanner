@@ -52,15 +52,18 @@ menu.updateRoutesMenu = function( routes ) {
 		currentRoute = routes[ i ];
 
 		if( currentRoute.routeEnds.length ) {
-
-			markup += '<li id="' + currentRoute._id.$oid + '" class="route-menu-item" data-route-ends="' +
-							getRouteEndsMarkup( currentRoute.routeEnds ) + '">' + currentRoute.routeName +
-							'<span title="delete" class="delete-route"></span>'
-						'</li>';
+			markup += getSingleRouteMenuElementMarkup( currentRoute );
 		}
 	}
 
 	$( '.routes-menu' ).html( markup );
+}
+
+function getSingleRouteMenuElementMarkup( route ) {
+	return '<li id="' + route._id.$oid + '" class="route-menu-item" data-route-ends="' +
+							getRouteEndsMarkup( route.routeEnds ) + '">' + route.routeName +
+							'<span title="delete" class="delete-route"></span>'
+						'</li>';
 }
 
 function getRouteEndsMarkup( routeEnds ) {
@@ -172,19 +175,29 @@ map.showAllPlacesEventListener = function() {
 };
 
 map.saveRouteEventListener = function() {
-	var $routeNameContainer = $( '.route-name-container' );
+	var $routeNameContainer = $( '.route-name-container' ),
+		$routeNameInput = $( '.route-name-input' );
 
 	$doc.on( 'click', '.save-route', function() {
 		$routeNameContainer.removeClass( 'hidden' );
+		$routeNameInput.focus();
 	});
 
 	$doc.on( 'change', '.route-name-input', function() {
 		var routeName = $( this ).val();
 
+		if( ! map._routeEndsLocations.length ) {
+			$routeNameContainer.addClass( 'hidden' );
+			toastr.info( 'Click on the search icon to start a route!' );
+			toastr.info( 'There is no route loaded on the map!' );
+			return;
+		}
+
 		if( routeName ) {
-			requests.addNewRoute( map._routeEndsLocations, routeName, function successCallback () {
+			requests.addNewRoute( map._routeEndsLocations, routeName, function successCallback ( route ) {
 				toastr.success( 'New route saved successfully!' );
 				$routeNameContainer.addClass( 'hidden' );
+				$( '.routes-menu' ).append( getSingleRouteMenuElementMarkup( route ) );
 			} );
 		}
 	})
