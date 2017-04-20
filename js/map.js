@@ -319,8 +319,18 @@ map.enlargePopupEventListener = function() {
 };
 
 map.closePopupEventListener = function() {
+	var $popup = $( '.big-popup' );
+
 	$doc.on( 'click', '.close-popup', function() {
-		$( '.big-popup' ).addClass( 'hidden' );
+		$popup.addClass( 'hidden' );
+	});
+
+	$doc.on( 'click', '.my-place-big-popup, .leaflet-popup', function( e ) {
+		e.stopPropagation();
+	});
+
+	$doc.on( 'click', function() {
+		$popup.addClass( 'hidden' );
 	});
 };
 
