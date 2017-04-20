@@ -5,7 +5,7 @@ var menu  = {},
 menu.init = function() {
 	this.getAllPlaces();
 
-	menu.hideStartScreen();
+	menu.hideStartScreenEventListener();
 
 	menu.getAllRoutes();
 	menu.toggleRoutesMenuEventListener();
@@ -13,12 +13,16 @@ menu.init = function() {
 	menu.deleteRouteEventListener();
 }
 
+menu.hideStartScreenEventListener = function() {
+	$doc.on( 'click', function() {
+		menu.hideStartScreen();
+	} );
+}
+
 menu.hideStartScreen = function() {
 	var $startScreen = $( '.start-screen' );
 
-	$doc.on( 'click', function() {
-		$startScreen.addClass( 'hidden' );
-	} );
+	$startScreen.addClass( 'hidden' );
 }
 
 
@@ -74,6 +78,7 @@ menu.toggleRoutesMenuEventListener = function() {
 
 	$doc.on( 'click', '.all-routes', function() {
 		$routesMenu.toggleClass( 'hidden' );
+		menu.hideStartScreen();
 	});
 
 	$doc.on( 'click', '.all-routes, .routes-menu', function( e ) {
@@ -134,6 +139,7 @@ map.showPlacesEventListener = function() {
 
 	$doc.on( 'click', '.show-places', function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
+		menu.hideStartScreen();
 	});
 
 	$doc.on( 'change', '.places-distance', function() {
