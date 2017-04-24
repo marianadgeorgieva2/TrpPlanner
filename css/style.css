@@ -22,12 +22,12 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	padding: 30px 20px 90px;
+	/*padding: 30px 20px 90px;*/
 	background-color: rgba( 220, 220, 220, 0.4 );
 	z-index: 1000;
 }
 .start-screen-items-container {
-	width: 300px;
+	width: 100%;
 	padding: 50px;
 	text-align: center;
 	background: rgba(255, 255, 255, 0.75);
@@ -38,10 +38,20 @@ body {
 .start-button {
 	margin-top: 20px;
 	padding: 10px 28px;
-	border: none;
+	border: 1px solid #138d90;
 	background: #138d90;
 	color: #fff;
 	cursor: pointer;
+	margin-right: 10px;
+}
+.help-button {
+	margin-top: 20px;
+	padding: 10px 28px;
+	border: 1px solid #138d90;
+	background: transparent;
+	color: #fff;
+	cursor: pointer;
+	color: #138d90
 }
 .logo {
 	margin: 12px 20px;
@@ -108,6 +118,9 @@ body {
 	padding: 14px 28px;
 	background: #fff;
 	cursor: pointer;
+	min-width: 200px;
+	margin-right: 1px;
+	text-align: center;
 }
 .controls-list-item-title:hover,
 .route-menu-item:hover {
@@ -253,16 +266,20 @@ body {
 	display: block;
 	width: 100%;
 	margin: 15px 0;
-	border: 1px solid #fff;
 	padding: 12px;
 	resize: none;
+	border: 1px solid #fff;
 	pointer-events: none;
+    border-bottom: 1px solid #138d90;
+    background: #f7f7f7;
 }
 
 .big-popup .edit-view input,
 .big-popup .edit-view textarea {
-	border-color: #aaa;
 	pointer-events: auto;
+	background: white;
+	border-bottom: 1px solid #05cdd4;
+	background: #fff;
 }
 
 .edit-place-icon {
@@ -304,4 +321,39 @@ body {
 	max-width: 100px;
 	max-height: 100px;
 	margin-left: 12px;
+}
+
+.title-input {
+	margin-top: 30px;
+}
+
+.first-title-input, .title-input {
+	color: #138d90;
+}
+
+.my-place-popup a {
+	background-color: #138d90;
+    color: white;
+    padding: 5px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.leaflet-popup-content {
+	width: 80px;
+}
+
+.popup-title {
+	text-align: center;
+	color: #138d90;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.place-title:focus,
+.place-info:focus,
+.place-img:focus {
+	outline-color: #05cdd4;
 }

@@ -77,14 +77,17 @@ MyPlace.prototype.updateMarkerPopup = function() {
 MyPlace.prototype.getMarkerPopupContent = function() {
 	return '<div class="my-place-popup" data-coords="' + this._coords + '">' +
 							'<h4 class="popup-title">' + ( this._title ? this._title : 'My Place' ) + '</h4>' +
-							'<a href="#" class="popup-link">more info...</a>'
+							'<a href="#" class="popup-link">more info</a>'
 						'</div>';
 };
 
 MyPlace.prototype.getMarkerBigPopupContent = function() {
 	return '<div id="' + this._id + '" class="my-place-big-popup" data-coords="' + this._coords + '">' +
+							'<div class="first-title-input">Name:</div>' +
 							'<input class="place-title" value="' + ( this._title ? this._title : 'My Place' ) + '" placeholder="Title">' +
+							'<div class="title-input">Description:</div>' +
 							'<textarea class="place-info" placeholder="Info">' + ( this._info ? this._info : '' ) + '</textarea>' +
+							'<div class="title-input">Upload image:</div>' +
 							'<input class="place-img" placeholder="Image URL" value="' + ( this._img ? this._img : '' ) + '">' +
 							( this._img ? '<img class="place-img-preview" src="' + this._img + '" />' : '' ) +
 							'<div class="edit-place-icon"></div>' +
