@@ -14,15 +14,15 @@ menu.init = function() {
 }
 
 menu.hideStartScreenEventListener = function() {
-	$doc.on( 'click', function() {
+	$doc.on( 'click',  '.start-button', function() {
 		menu.hideStartScreen();
 	} );
 }
 
 menu.hideStartScreen = function() {
-	var $startScreen = $( '.start-screen' );
-
-	$startScreen.addClass( 'hidden' );
+	$( '.start-screen' ).addClass( 'hidden' );
+	$( '#top-controls' ).removeClass( 'hidden' );
+	$( '#bottom-controls' ).removeClass( 'hidden' );
 }
 
 

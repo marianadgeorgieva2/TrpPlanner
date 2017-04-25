@@ -83,17 +83,19 @@ MyPlace.prototype.getMarkerPopupContent = function() {
 
 MyPlace.prototype.getMarkerBigPopupContent = function() {
 	return '<div id="' + this._id + '" class="my-place-big-popup" data-coords="' + this._coords + '">' +
-							'<div class="first-title-input">Name:</div>' +
-							'<input class="place-title" value="' + ( this._title ? this._title : 'My Place' ) + '" placeholder="Title">' +
-							'<div class="title-input">Description:</div>' +
-							'<textarea class="place-info" placeholder="Info">' + ( this._info ? this._info : '' ) + '</textarea>' +
-							'<div class="title-input">Upload image:</div>' +
-							'<input class="place-img" placeholder="Image URL" value="' + ( this._img ? this._img : '' ) + '">' +
-							( this._img ? '<img class="place-img-preview" src="' + this._img + '" />' : '' ) +
-							'<div class="edit-place-icon"></div>' +
-							'<div class="delete-place-icon"></div>' +
-						'</div>' +
-						'<div class="close-popup"></div>';
+				'<div class="popup-content">' +
+					'<div class="first-title-input">Name:</div>' +
+					'<input class="place-title" value="' + ( this._title ? this._title : 'My Place' ) + '" placeholder="Title">' +
+					'<div class="title-input">Description:</div>' +
+					'<textarea class="place-info" placeholder="Info">' + ( this._info ? this._info : '' ) + '</textarea>' +
+					'<div class="title-input">Upload image:</div>' +
+					'<input class="place-img" placeholder="Image URL" value="' + ( this._img ? this._img : '' ) + '">' +
+					( this._img ? '<img class="place-img-preview" src="' + this._img + '" />' : '' ) +
+				'</div>' +
+				'<div class="edit-place-icon"></div>' +
+				'<div class="delete-place-icon"></div>' +
+			'</div>' +
+			'<div class="close-popup"></div>';
 };
 
 

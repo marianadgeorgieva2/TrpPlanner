@@ -309,12 +309,21 @@ map.showMyPlaces = function() {
 };
 
 map.enlargePopupEventListener = function() {
-	var myPlace = null;
+	var myPlace = null,
+		$popup = $( '.big-popup' ),
+		$textarea = null;
 
 	$doc.on( 'click', '.my-place-popup', function() {
 		myPlace = myPlacesDictionary.getPlace( $( this ).data( 'coords' ) );
 
-		$( '.big-popup' ).html( myPlace.getMarkerBigPopupContent() ).removeClass( 'hidden' );
+		$popup.html( myPlace.getMarkerBigPopupContent() ).removeClass( 'hidden' );
+
+
+		// update the height of the text area based on its content
+		setTimeout( function() {
+			$textarea = $popup.find( 'textarea' );
+		    $textarea.height( $textarea[ 0 ].scrollHeight );
+		}, 1);
 	});
 };
 

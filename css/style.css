@@ -118,7 +118,7 @@ body {
 	padding: 14px 28px;
 	background: #fff;
 	cursor: pointer;
-	min-width: 200px;
+	/*min-width: 200px;*/
 	margin-right: 1px;
 	text-align: center;
 }
@@ -257,8 +257,14 @@ body {
 	max-width: 600px;
 	height: 80%;
 	margin: auto;
-	padding: 30px;
+	padding: 30px 10px 30px 30px;
 	background: #fff;
+}
+
+.popup-content {
+	height: calc( 100% - 25px );
+	overflow-y: auto;
+	padding-right: 20px;
 }
 
 .big-popup input,
@@ -266,12 +272,17 @@ body {
 	display: block;
 	width: 100%;
 	margin: 15px 0;
-	padding: 12px;
-	resize: none;
+	padding: 12px 0;
+	resize: vertical;
 	border: 1px solid #fff;
 	pointer-events: none;
     border-bottom: 1px solid #138d90;
-    background: #f7f7f7;
+	background: #fff;
+}
+
+.big-popup textarea {
+	height: auto;
+	overflow: visible;
 }
 
 .big-popup .edit-view input,
@@ -279,13 +290,13 @@ body {
 	pointer-events: auto;
 	background: white;
 	border-bottom: 1px solid #05cdd4;
-	background: #fff;
+    background: #f7f7f7;
 }
 
 .edit-place-icon {
 	position: absolute;
-	bottom: 30px;
-	right: 30px;
+	bottom: 20px;
+	right: 50px;
 	width: 20px;
 	height: 20px;
 	padding: 10px;
@@ -295,8 +306,8 @@ body {
 }
 .delete-place-icon {
 	position: absolute;
-	bottom: 30px;
-	right: 60px;
+	bottom: 20px;
+	right: 75px;
 	width: 20px;
 	height: 20px;
 	padding: 10px;
@@ -311,7 +322,7 @@ body {
 	right: 20px;
 	width: 40px;
 	height: 40px;
-	background: url( '../img/close.svg' );
+	background: url( '../img/close.svg' ) no-repeat;
 	background-size: contain;
 	z-index: 1001;
 	cursor: pointer;
@@ -320,7 +331,6 @@ body {
 .place-img-preview {
 	max-width: 100px;
 	max-height: 100px;
-	margin-left: 12px;
 }
 
 .title-input {
@@ -356,4 +366,13 @@ body {
 .place-info:focus,
 .place-img:focus {
 	outline-color: #05cdd4;
+}
+
+
+@media ( max-width: 761px ) {
+	.close-popup {
+		top: 70px;
+		right: 12px;
+		width: 18px;
+	}
 }
