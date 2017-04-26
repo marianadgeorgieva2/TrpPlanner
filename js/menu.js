@@ -1,5 +1,12 @@
 var menu  = {},
-	$doc = $( document );
+	$doc = $( document ),
+	showHelpMessage = false, // if true we will show help messages on every step of the workflow
+	helpOptions = { // options for help toastr notifications
+		timeOut: 0,
+		extendedTimeOut: 0,
+		positionClass: 'toast-bottom-left',
+		closeButton: true
+	};
 
 
 menu.init = function() {
@@ -11,11 +18,27 @@ menu.init = function() {
 	menu.toggleRoutesMenuEventListener();
 	menu.showRouteFromTheMenu();
 	menu.deleteRouteEventListener();
+	menu.startWithHelpEventListener();
 }
 
 menu.hideStartScreenEventListener = function() {
 	$doc.on( 'click',  '.start-button', function() {
 		menu.hideStartScreen();
+	} );
+}
+
+menu.startWithHelpEventListener = function() {
+	$doc.on( 'click',  '.help-button', function() {
+		menu.hideStartScreen();
+
+		showHelpMessage = true;
+
+		toastr.info( 'Let\'s start searching for places. Type in a city name in the top right search field.', null, helpOptions );
+
+		// open the search places input after 1 sec
+		setTimeout( function() {
+			$( '.leaflet-control-geocoder' ).addClass( 'leaflet-control-geocoder-expanded' );
+		}, 1000 );
 	} );
 }
 
@@ -81,7 +104,6 @@ menu.toggleRoutesMenuEventListener = function() {
 
 	$doc.on( 'click', '.all-routes', function() {
 		$routesMenu.toggleClass( 'hidden' );
-		menu.hideStartScreen();
 	});
 
 	$doc.on( 'click', '.all-routes, .routes-menu', function( e ) {
@@ -142,7 +164,6 @@ map.showPlacesEventListener = function() {
 
 	$doc.on( 'click', '.show-places', function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
-		menu.hideStartScreen();
 	});
 
 	$doc.on( 'change', '.places-distance', function() {

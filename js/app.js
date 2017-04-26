@@ -1,6 +1,6 @@
 $( document ).ready( function() {
-  map.init();
-  menu.init();
+	map.init();
+	menu.init();
 
 });
 

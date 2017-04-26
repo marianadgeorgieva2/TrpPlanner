@@ -69,6 +69,12 @@ map.geocoderInit = function() {
 	        }
 	        else {
 	        	map.drawSinglePointCircle( center );
+
+	        	if( showHelpMessage ) {
+	        		toastr.info( 'Great! In the circle you can see all places closer than given distance.', null, helpOptions );
+
+	        		toastr.info( 'Click on the marker to add it to saved places.', null, helpOptions );
+	        	}
 	        }
 
 	        _this._lastLocation = center;
