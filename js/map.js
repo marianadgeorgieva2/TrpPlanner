@@ -66,6 +66,12 @@ map.geocoderInit = function() {
 	        if( lastLocation ) {
 	        	map._circleLayer.clearLayers();
 	        	map.getRouteWithBoxes( lastLocation.lng + ',' + lastLocation.lat + ';' + center.lng + ',' + center.lat );
+
+	        	if( showHelpMessage ) {
+	        		toastr.info( 'Now you can see the shortest route between the two places and the closest places.', null, helpOptions );
+	        		toastr.info( 'You can continue building your route by typing in another place in the serach field.', null, helpOptions );
+	        		toastr.info( 'Now let\'s save the route. Click on the "Save route" menu item at the bottom.', null, helpOptions );
+	        	}
 	        }
 	        else {
 	        	map.drawSinglePointCircle( center );
@@ -289,6 +295,12 @@ map.addNewPlaceEventListener = function() {
 					map._myPlacesLayer.addLayer( newPlace.getMarker() );
 
 					toastr.success( 'Added a new place!' );
+
+					if( showHelpMessage ) {
+						toastr.info( 'Drag the marker to update its location.', null, helpOptions );
+						toastr.info( 'Click on the marker to open its popup.', null, helpOptions );
+						toastr.info( 'Now click on the "More info" button.', null, helpOptions );
+					}
 				});
 		}
 		else {
@@ -324,6 +336,11 @@ map.enlargePopupEventListener = function() {
 
 		$popup.html( myPlace.getMarkerBigPopupContent() ).removeClass( 'hidden' );
 
+		if( showHelpMessage ) {
+			toastr.info( 'You can add some description and change the marker icon from here.', null, helpOptions );
+			toastr.info( 'Click on the pencil icon in the bottom right corner to enable the edit view.', null, helpOptions );
+		}
+
 
 		// update the height of the text area based on its content
 		setTimeout( function() {
@@ -338,6 +355,10 @@ map.closePopupEventListener = function() {
 
 	$doc.on( 'click', '.close-popup', function() {
 		$popup.addClass( 'hidden' );
+
+		if( showHelpMessage ) {
+			toastr.info( 'Now let\'s continue with your route. Go to the search field and type in another place.', null, helpOptions );
+		}
 	});
 
 	$doc.on( 'click', '.my-place-big-popup, .leaflet-popup', function( e ) {
@@ -346,6 +367,10 @@ map.closePopupEventListener = function() {
 
 	$doc.on( 'click', function() {
 		$popup.addClass( 'hidden' );
+
+		if( showHelpMessage ) {
+			toastr.info( 'Now let\'s continue with your route. Go to the search field and type in another place.', null, helpOptions );
+		}
 	});
 };
 
@@ -353,6 +378,10 @@ map.closePopupEventListener = function() {
 map.editPlaceEventListener = function() {
 	$doc.on( 'click', '.edit-place-icon', function() {
 		$( '.my-place-big-popup' ).toggleClass( 'edit-view' );
+
+		if( showHelpMessage ) {
+			toastr.info( 'Let\s change the icon of the marker. Go to the web, find an image, copy its url and paste it here.', null, helpOptions );
+		}
 	});
 };
 
@@ -388,6 +417,10 @@ map.updatePlaceEventListeners = function() {
 			$( '.place-img-preview' ).attr( 'src', imgVal );
 			myPlace.setImg( imgVal );
 			myPlace.setMarkerIcon();
+
+			if( showHelpMessage ) {
+				toastr.info( 'Great! Now close the popup to see your marker icon updated.', null, helpOptions );
+			}
 		});
 	});
 

@@ -202,6 +202,10 @@ map.saveRouteEventListener = function() {
 	$doc.on( 'click', '.save-route', function() {
 		$routeNameContainer.removeClass( 'hidden' );
 		$routeNameInput.focus();
+
+		if( showHelpMessage ) {
+			toastr.info( 'Add a name to your route.', null, helpOptions );
+		}
 	});
 
 	$doc.on( 'change', '.route-name-input', function() {
@@ -219,6 +223,11 @@ map.saveRouteEventListener = function() {
 				toastr.success( 'New route saved successfully!' );
 				$routeNameContainer.addClass( 'hidden' );
 				$( '.routes-menu' ).append( getSingleRouteMenuElementMarkup( route ) );
+
+				if( showHelpMessage ) {
+					toastr.info( 'You can find your route in the "My routes" list at the bottom.', null, helpOptions );
+					toastr.info( 'Go to the top and click on "Clear map".', null, helpOptions );
+				}
 			} );
 		}
 	})
