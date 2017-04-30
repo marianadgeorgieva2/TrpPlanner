@@ -194,6 +194,11 @@ map.startNewRouteEventListener = function() {
 map.clearMapEventListener = function() {
 	$doc.on( 'click', '.start-new-route, .clear-map', function() {
 		map.clearMap();
+
+		if( showHelpMessage ) {
+			toastr.info( 'Click on the "Show all places" in the center of the top menu. Now you can see all saved places.' );
+			toastr.info( 'Now let\s start a new route. Click on the "Close places distance" button in the top menu.' );
+		}
 	});
 };
 
@@ -366,10 +371,12 @@ map.closePopupEventListener = function() {
 	});
 
 	$doc.on( 'click', function() {
-		$popup.addClass( 'hidden' );
+		if( ! $popup.hasClass( 'hidden' ) ) {
+			$popup.addClass( 'hidden' );
 
-		if( showHelpMessage ) {
-			toastr.info( 'Now let\'s continue with your route. Go to the search field and type in another place.', null, helpOptions );
+			if( showHelpMessage ) {
+				toastr.info( 'Now let\'s continue with your route. Go to the search field and type in another place.', null, helpOptions );
+			}
 		}
 	});
 };

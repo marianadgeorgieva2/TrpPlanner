@@ -2,7 +2,7 @@ var menu  = {},
 	$doc = $( document ),
 	showHelpMessage = false, // if true we will show help messages on every step of the workflow
 	helpOptions = { // options for help toastr notifications
-		timeOut: 0,
+		timeOut: 20000,
 		extendedTimeOut: 0,
 		positionClass: 'toast-bottom-left',
 		closeButton: true
@@ -164,6 +164,11 @@ map.showPlacesEventListener = function() {
 
 	$doc.on( 'click', '.show-places', function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
+
+		if( showHelpMessage ) {
+			toastr.info( 'Here you can set the maximum distance between saved places and the route.' );
+			toastr.info( 'Let\'s change it to 20 km' );
+		}
 	});
 
 	$doc.on( 'change', '.places-distance', function() {
@@ -171,6 +176,13 @@ map.showPlacesEventListener = function() {
 
 		if( value ) {
 			map._distance = value;
+
+			if( showHelpMessage ) {
+				toastr.info( 'Now go to the "My routes" menu and select a route. Now you can see more places.' );
+
+				toastr.info( 'Theat was it. Enjoy the app!' );
+				showHelpMessage = false;
+			}
 		}
 	});
 
