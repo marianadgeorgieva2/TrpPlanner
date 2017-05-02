@@ -149,9 +149,11 @@ menu.showRouteFromTheMenu = function() {
 }
 
 menu.deleteRouteEventListener = function() {
-	$doc.on( 'click', '.delete-route', function() {
-		var $routeListItem = $( this ).parents( 'li' ),
+	$doc.on( 'click', '.delete-route', function( e ) {
+		var $routeListItem = $( this ).parents( '.route-menu-item' ),
 			routeId = $routeListItem.attr( 'id' );
+
+		e.stopPropagation(); // prevent selecting the route
 
 		requests.deleteRoute( routeId, function successCallback() {
 			$routeListItem.remove();

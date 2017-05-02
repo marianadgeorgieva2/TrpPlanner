@@ -162,8 +162,9 @@ body {
 	cursor: pointer;
 }
 .route-menu-item {
-	padding: 12px;
+	padding: 12px 12px 12px 26px;
 	list-style: none;
+	text-align: left;
 }
 
 .route-name-container {
