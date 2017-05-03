@@ -6,26 +6,26 @@ eventy.eventEnable( map );
 
 map.init = function() {
 	this.baseInit();
-	// this.routingControlInit();
-	map.geocoderInit();
+	this.geocoderInit();
 
 	this.addNewPlaceEventListener();
 	this.enlargePopupEventListener();
-	map.closePopupEventListener();
-	map.editPlaceEventListener();
-	map.updatePlaceEventListeners();
-	map.deletePlaceEventListener();
+	this.closePopupEventListener();
+	this.editPlaceEventListener();
+	this.updatePlaceEventListeners();
+	this.deletePlaceEventListener();
 
-	map.showPlacesEventListener();
-	map.showAllPlacesEventListener();
+	this.showPlacesEventListener();
+	this.showAllPlacesEventListener();
 
-	map.startNewRouteEventListener();
-	map.clearMapEventListener();
+	this.startNewRouteEventListener();
+	this.clearMapEventListener();
 
-	map.saveRouteEventListener();
+	this.saveRouteEventListener();
 };
 
-// map and tile layer
+// map + tile layer
+// all markers layers
 map.baseInit = function() {
 	var mapTileLayer = L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
@@ -51,6 +51,7 @@ map.baseInit = function() {
 	mapTileLayer.addTo( this._map );
 };
 
+// search field in the right
 map.geocoderInit = function() {
 	var _this = this,
 		geocoder = L.Control.geocoder({
@@ -89,6 +90,7 @@ map.geocoderInit = function() {
 	    .addTo( _this._map );
 };
 
+// get the marker used for displaying route ends
 map.getRouteEndMarker = function( center ) {
 	return L.marker( center, {
 				draggable: false,
@@ -97,6 +99,7 @@ map.getRouteEndMarker = function( center ) {
 			}).bindPopup( map.getWaypointMarkerPopup( center ) );
 }
 
+// display the route end markers for given route end points
 map.showAllRouteEndsMarkers = function ( routeEnds ) {
 	var marker = null;
 
@@ -110,6 +113,8 @@ map.showAllRouteEndsMarkers = function ( routeEnds ) {
 	map._routeEndsLocations.push( routeEnds[ i ] );
 }
 
+// get a route by given locations and display it on the map
+// with boxes for closest places
 map.getRouteWithBoxes = function( loc ) {
 	requests.getRoute( loc, function successCallback2( routes ) {
 		for( var i in routes ) {
@@ -118,6 +123,7 @@ map.getRouteWithBoxes = function( loc ) {
 	});
 };
 
+// draw a route polyline and boxes
 map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 	var routePolyline = new L.Polyline( L.PolylineUtil.decode( route ), { color: "#138d90" } ), // OSRM polyline decoding
 		boxes = L.RouteBoxer.box( routePolyline, this._distance ),
@@ -134,10 +140,12 @@ map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 		reachablePlaces = reachablePlaces.concat( map.getReachablePlaces( currentRectangle ) );
 	}
 
+	// update the current route distance in the box in the right
 	boxesLayer.on( 'click', function() {
 		map.updateCurrentRouteDistanceLabel( routeDistance );
 	} );
 
+	// update the whole route distance in the box in the right
 	map.updateRouteDistanceLabel( routeDistance );
 
 	this._myPlacesLayer.addLayer ( L.featureGroup( reachablePlaces ) );
@@ -147,6 +155,8 @@ map.drawRoutePolylineAndBoxes = function ( route, routeDistance ) {
 	this._map.fitBounds( bounds );
 };
 
+// draw a circle around given point
+// radius = the distance selected in the menu
 map.drawSinglePointCircle = function ( point ) {
 	var radius = this._distance * 1000, // in metres
 		circle = L.circle( point, { radius: radius } );
@@ -156,10 +166,12 @@ map.drawSinglePointCircle = function ( point ) {
 	this._map.fitBounds( this._circleLayer.getBounds() );
 };
 
+// update the current route in the right route distance control after click on the route
 map.updateCurrentRouteDistanceLabel = function( distance ) {
 	$( '.current-route-distance-info' ).html( ( distance / 1000 ).toFixed( 3 ) + 'km' );
 };
 
+// update the whole route label
 map.updateRouteDistanceLabel = function( distance ) {
 	var $distanceInfo = $( '.route-distance-info' ),
 		distanceInfoVal = $distanceInfo.html().replace( 'km', '' ),
@@ -169,6 +181,7 @@ map.updateRouteDistanceLabel = function( distance ) {
 };
 
 
+// get all the places ( from my places ) that are inside given shape
 map.getReachablePlaces = function( shape ) {
 	var myPlaces = myPlacesDictionary.getAllPlaces(),
 		layer = {},
@@ -183,6 +196,7 @@ map.getReachablePlaces = function( shape ) {
 	return markers;
 };
 
+// clear the map and open the search field
 map.startNewRouteEventListener = function() {
 	$doc.on( 'click', '.start-new-route', function() {
 		map.clearMap();
@@ -191,6 +205,7 @@ map.startNewRouteEventListener = function() {
 	});
 };
 
+// event listener for removing all layers from the map
 map.clearMapEventListener = function() {
 	$doc.on( 'click', '.start-new-route, .clear-map', function() {
 		map.clearMap();
@@ -202,6 +217,7 @@ map.clearMapEventListener = function() {
 	});
 };
 
+// remove all layers from the map
 map.clearMap = function() {
 	map._myPlacesLayer.clearLayers();
 	map._routesLayer.clearLayers();
@@ -213,52 +229,12 @@ map.clearMap = function() {
 	map.clearRouteDistancesMarkup();
 };
 
+// clear the numbers in the route distance control
 map.clearRouteDistancesMarkup = function() {
 	$( '.current-route-distance-info' ).html( '' );
 	$( '.route-distance-info' ).html( '' );
 }
 
-// the control in the right for searching routes
-// map.routingControlInit = function() {
-// 	var _this = this,
-// 		customIcon = map.getCustomIcon(),
-// 		routingControl = L.Routing.control({
-// 			waypoints: [
-// 				L.latLng( 42.69757, 23.32254 )
-// 			],
-// 			routeWhileDragging: true,
-// 			showAlternatives: true,
-// 			lineOptions: {
-// 				styles: [ { color: '#ffb74c', opacity: 0.8, weight: 6 } ],
-// 				addWaypoints: false
-// 			},
-// 			fitSelectedRoutes: true,
-// 			geocoder: L.Control.Geocoder.nominatim(),
-// 			createMarker: function( i, wp ) {
-// 				_this._map.panTo( wp.latLng );
-
-// 				return L.marker( wp.latLng, {
-// 					draggable: true,
-// 					icon: customIcon,
-// 					riseOnHover: true
-// 				}).bindPopup( map.getWaypointMarkerPopup( wp.latLng ) );
-// 			}
-// 		});
-
-// 	routingControl.addTo( this._map );
-
-// 	routingControl.on( 'routesfound', function(e) {
-// 		var routes = e.routes;
-
-// 		map._currentRoutes = routes;
-// 	});
-
-
-// 	// routingControl.on('routeselected', function(e) {
-// 	// 	var route = e.route;
-// 	// 	console.log('Showing route between waypoints:\n' + JSON.stringify(route.inputWaypoints, null, 2));
-// 	// });
-// }
 
 // get a popup with add to places button
 map.getWaypointMarkerPopup = function( latlng ) {
@@ -314,6 +290,8 @@ map.addNewPlaceEventListener = function() {
 	});
 };
 
+
+// show all saved places
 map.showMyPlaces = function() {
 	var allPlaces = myPlacesDictionary.getAllPlaces(),
 		markers = [],
@@ -331,6 +309,7 @@ map.showMyPlaces = function() {
 	this._myPlacesLayer.addLayer( layer );
 };
 
+// open the big popup containing the place info
 map.enlargePopupEventListener = function() {
 	var myPlace = null,
 		$popup = $( '.big-popup' ),
@@ -355,6 +334,7 @@ map.enlargePopupEventListener = function() {
 	});
 };
 
+// close the big place info popup
 map.closePopupEventListener = function() {
 	var $popup = $( '.big-popup' );
 
@@ -438,6 +418,7 @@ map.updatePlaceEventListeners = function() {
 	});
 };
 
+// delete current place
 map.deletePlaceEventListener = function() {
 	var placeId = null,
 		place = null;
