@@ -82,6 +82,12 @@ body {
 	width: 230px;
 }
 
+.leaflet-control-geocoder-icon {
+	background-color: transparent;
+	background-image: url( '../img/zoom.svg' );
+	background-size: 16px;
+}
+
 .add-to-my-places {
 	padding: 10px 12px;
 	border: none;
@@ -358,5 +364,15 @@ body {
 		top: 70px;
 		right: 12px;
 		width: 18px;
+	}
+
+	.distance-container {
+		width: 120px;
+		height: 60px;
+		padding: 10px;
+		right: 10px;
+	}
+	.distance-sub-container:first-child {
+		display: none;
 	}
 }
