@@ -78,6 +78,10 @@ body {
 	top: 60px;
 }
 
+.leaflet-control-geocoder-form input {
+	width: 230px;
+}
+
 .add-to-my-places {
 	padding: 10px 12px;
 	border: none;
@@ -216,15 +220,6 @@ body {
 	color: #138d90;
 }
 
-
-/*leaflet routing machine*/
-.leaflet-routing-alt table {
-	display: none;
-}
-
-.leaflet-control-geocoder-form input {
-	width: 230px;
-}
 
 /*big popup*/
 .big-popup {
