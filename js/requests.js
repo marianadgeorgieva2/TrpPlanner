@@ -8,6 +8,9 @@ requests.getAllPlaces = function( successCallback ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
 		}
 	});
 };
@@ -23,6 +26,9 @@ requests.addNewPlace = function( coords, successCallback ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
 		}
 	});
 };
@@ -41,6 +47,9 @@ requests.updatePlace = function( id, prop, value, successCallback ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
 		}
 	});
 };
@@ -56,7 +65,10 @@ requests.deletePlace = function( id, successCallback ) {
 				successCallback( data );
 			}
 		},
-		error: function (xhr, status, err) { } } );
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
+		}
+	});
 };
 
 
@@ -69,14 +81,17 @@ requests.getRoute = function( loc, successCallback ) {
 			steps: false,
 			//compression: false,
 			alternatives: false
-	  },
-	  dataType: 'json',
-	  success: function ( data ) {
-	  	if( typeof successCallback === 'function' ) {
-	  		successCallback( data.routes  );
-	  	}
-	  },
-	  error: function (xhr, status, err) { } } );
+		},
+		dataType: 'json',
+		success: function ( data ) {
+			if( typeof successCallback === 'function' ) {
+				successCallback( data.routes  );
+			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
+		}
+	});
 };
 
 
@@ -92,6 +107,9 @@ requests.addNewRoute = function( routeEnds, routeName, successCallback ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
 		}
 	});
 };
@@ -103,6 +121,9 @@ requests.getAllRoutes = function( successCallback ) {
 			if( typeof successCallback === 'function' ) {
 				successCallback( data );
 			}
+		},
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
 		}
 	});
 };
@@ -118,7 +139,10 @@ requests.deleteRoute = function( id, successCallback ) {
 				successCallback( data );
 			}
 		},
-		error: function (xhr, status, err) { } } );
+		error: function() {
+			toastr.error( 'Something went wrong! Try again later!', null, toastrOptions );
+		}
+	});
 };
 
 

@@ -275,7 +275,7 @@ map.addNewPlaceEventListener = function() {
 
 					map._myPlacesLayer.addLayer( newPlace.getMarker() );
 
-					toastr.success( 'Added a new place!' );
+					toastr.success( 'Added a new place!', null, toastrOptions );
 
 					if( showHelpMessage ) {
 						toastr.info( 'Drag the marker to update its location.', null, helpOptions );
@@ -413,7 +413,7 @@ map.updatePlaceEventListeners = function() {
 
 	map.addEventListener( 'update-marker-coords', function( e ) {
 		requests.updatePlace( e.id, 'coords', e.coords, function successCallback () {
-			toastr.success( 'Marker location updated!' );
+			toastr.success( 'Marker location updated!', null, toastrOptions );
 		});
 	});
 };
@@ -429,7 +429,7 @@ map.deletePlaceEventListener = function() {
 			place = myPlacesDictionary.getPlace( $( '.my-place-big-popup' ).data( 'coords' ) );
 
 			requests.deletePlace( placeId, function successCallback() {
-				toastr.success( 'Deleted!' );
+				toastr.success( 'Deleted!', null, toastrOptions );
 
 				$( '.big-popup' ).addClass( 'hidden' );
 				map._map.removeLayer( place.getCurrentMarker() );

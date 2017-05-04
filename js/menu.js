@@ -1,6 +1,10 @@
 var menu  = {},
 	$doc = $( document ),
 	showHelpMessage = false, // if true we will show help messages on every step of the workflow
+	toastrOptions = {
+		positionClass: 'toast-bottom-left',
+		closeButton: true
+	},
 	helpOptions = { // options for help toastr notifications
 		timeOut: 20000,
 		extendedTimeOut: 0,
@@ -248,7 +252,7 @@ map.saveRouteEventListener = function() {
 
 		if( routeName ) {
 			requests.addNewRoute( map._routeEndsLocations, routeName, function successCallback ( route ) {
-				toastr.success( 'New route saved successfully!' );
+				toastr.success( 'New route saved successfully!', null, toastrOptions );
 				$routeNameContainer.addClass( 'hidden' );
 				$( '.routes-menu' ).append( getSingleRouteMenuElementMarkup( route ) );
 
