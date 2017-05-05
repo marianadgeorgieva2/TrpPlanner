@@ -183,8 +183,8 @@ map.showPlacesEventListener = function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
 
 		if( showHelpMessage ) {
-			toastr.info( 'Here you can set the maximum distance between saved places and the route.' );
-			toastr.info( 'Let\'s change it to 20 km' );
+			toastr.info( 'Here you can set the maximum distance between saved places and the route.', null, helpOptions );
+			toastr.info( 'Let\'s change it to 20 km', null, helpOptions );
 		}
 	});
 

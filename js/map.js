@@ -285,7 +285,7 @@ map.addNewPlaceEventListener = function() {
 				});
 		}
 		else {
-			toastr.error( 'You already have a place on this location!' );
+			toastr.error( 'You already have a place on this location!', null, toastrOptions );
 		}
 	});
 };
