@@ -1,6 +1,10 @@
 var menu  = {},
 	$doc = $( document ),
 	showHelpMessage = false, // if true we will show help messages on every step of the workflow
+	toastrOptions = {
+		positionClass: 'toast-bottom-left',
+		closeButton: true
+	},
 	helpOptions = { // options for help toastr notifications
 		timeOut: 20000,
 		extendedTimeOut: 0,
@@ -12,21 +16,23 @@ var menu  = {},
 menu.init = function() {
 	this.getAllPlaces();
 
-	menu.hideStartScreenEventListener();
+	this.hideStartScreenEventListener();
 
-	menu.getAllRoutes();
-	menu.toggleRoutesMenuEventListener();
-	menu.showRouteFromTheMenu();
-	menu.deleteRouteEventListener();
-	menu.startWithHelpEventListener();
+	this.getAllRoutes();
+	this.toggleRoutesMenuEventListener();
+	this.showRouteFromTheMenu();
+	this.deleteRouteEventListener();
+	this.startWithHelpEventListener();
 }
 
+// hide the start screen after 'start' click
 menu.hideStartScreenEventListener = function() {
 	$doc.on( 'click',  '.start-button', function() {
 		menu.hideStartScreen();
 	} );
 }
 
+// hide the start screen and start displaying help messages
 menu.startWithHelpEventListener = function() {
 	$doc.on( 'click',  '.help-button', function() {
 		menu.hideStartScreen();
@@ -42,13 +48,14 @@ menu.startWithHelpEventListener = function() {
 	} );
 }
 
+// hide the start screen and show the controls
 menu.hideStartScreen = function() {
 	$( '.start-screen' ).addClass( 'hidden' );
 	$( '#top-controls' ).removeClass( 'hidden' );
 	$( '#bottom-controls' ).removeClass( 'hidden' );
 }
 
-
+// get all saved places
 menu.getAllPlaces = function() {
 	var currenPlace = {};
 
@@ -59,6 +66,7 @@ menu.getAllPlaces = function() {
 	});
 }
 
+// get all saved routes
 menu.getAllRoutes = function() {
 	var currenRoute = {};
 
@@ -67,6 +75,7 @@ menu.getAllRoutes = function() {
 	});
 }
 
+// add all saved routes to the routes menu
 menu.updateRoutesMenu = function( routes ) {
 	var currentRoute = null,
 		markup = '';
@@ -82,6 +91,7 @@ menu.updateRoutesMenu = function( routes ) {
 	$( '.routes-menu' ).html( markup );
 }
 
+// get the list item markup of a single route
 function getSingleRouteMenuElementMarkup( route ) {
 	return '<li id="' + route._id.$oid + '" class="route-menu-item" data-route-ends="' +
 							getRouteEndsMarkup( route.routeEnds ) + '">' + route.routeName +
@@ -89,6 +99,7 @@ function getSingleRouteMenuElementMarkup( route ) {
 						'</li>';
 }
 
+// parse the route ends to the desired format
 function getRouteEndsMarkup( routeEnds ) {
 	var markup = '';
 
@@ -99,6 +110,7 @@ function getRouteEndsMarkup( routeEnds ) {
 	return markup.substring( 0, markup.length - 1 ); // remove the last ;
 }
 
+// open/close routes menu
 menu.toggleRoutesMenuEventListener = function() {
 	var $routesMenu = $( '.routes-menu' );
 
@@ -115,6 +127,7 @@ menu.toggleRoutesMenuEventListener = function() {
 	});
 }
 
+// event listener for selecting a route from the routes menu
 menu.showRouteFromTheMenu = function() {
 	var routeEnds = null,
 		routeEndsArr = [],
@@ -148,10 +161,13 @@ menu.showRouteFromTheMenu = function() {
 	});
 }
 
+// event listener for deleting a route from the routes menu
 menu.deleteRouteEventListener = function() {
-	$doc.on( 'click', '.delete-route', function() {
-		var $routeListItem = $( this ).parents( 'li' ),
+	$doc.on( 'click', '.delete-route', function( e ) {
+		var $routeListItem = $( this ).parents( '.route-menu-item' ),
 			routeId = $routeListItem.attr( 'id' );
+
+		e.stopPropagation(); // prevent selecting the route
 
 		requests.deleteRoute( routeId, function successCallback() {
 			$routeListItem.remove();
@@ -159,6 +175,7 @@ menu.deleteRouteEventListener = function() {
 	});
 }
 
+// event listener for openning and changing the data in the distance popup
 map.showPlacesEventListener = function() {
 	var $showPlacesMenu = $( '.show-places-menu' );
 
@@ -166,8 +183,8 @@ map.showPlacesEventListener = function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
 
 		if( showHelpMessage ) {
-			toastr.info( 'Here you can set the maximum distance between saved places and the route.' );
-			toastr.info( 'Let\'s change it to 20 km' );
+			toastr.info( 'Here you can set the maximum distance between saved places and the route.', null, helpOptions );
+			toastr.info( 'Let\'s change it to 20 km', null, helpOptions );
 		}
 	});
 
@@ -201,12 +218,15 @@ map.showPlacesEventListener = function() {
 	});
 };
 
+// event listener for displaying all saved places
 map.showAllPlacesEventListener = function() {
 	$doc.on( 'click', '.show-all-places', function() {
 		map.showMyPlaces();
 	});
 };
 
+// save the current route
+// and add a name to it
 map.saveRouteEventListener = function() {
 	var $routeNameContainer = $( '.route-name-container' ),
 		$routeNameInput = $( '.route-name-input' );
@@ -232,7 +252,7 @@ map.saveRouteEventListener = function() {
 
 		if( routeName ) {
 			requests.addNewRoute( map._routeEndsLocations, routeName, function successCallback ( route ) {
-				toastr.success( 'New route saved successfully!' );
+				toastr.success( 'New route saved successfully!', null, toastrOptions );
 				$routeNameContainer.addClass( 'hidden' );
 				$( '.routes-menu' ).append( getSingleRouteMenuElementMarkup( route ) );
 

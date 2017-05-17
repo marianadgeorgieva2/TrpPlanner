@@ -1,7 +1,6 @@
 $( document ).ready( function() {
-	map.init();
-	menu.init();
-
+	map.init(); // all map functions
+	menu.init(); // all menu functions
 });
 
 

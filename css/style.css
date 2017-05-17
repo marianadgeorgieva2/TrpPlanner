@@ -78,6 +78,16 @@ body {
 	top: 60px;
 }
 
+.leaflet-control-geocoder-form input {
+	width: 230px;
+}
+
+.leaflet-control-geocoder-icon {
+	background-color: transparent;
+	background-image: url( '../img/zoom.svg' );
+	background-size: 16px;
+}
+
 .add-to-my-places {
 	padding: 10px 12px;
 	border: none;
@@ -127,7 +137,6 @@ body {
 	color: #138d90;
 }
 
-/*top controls*/
 .show-places-menu {
 	position: absolute;
     max-height: 400px;
@@ -162,8 +171,9 @@ body {
 	cursor: pointer;
 }
 .route-menu-item {
-	padding: 12px;
+	padding: 12px 12px 12px 26px;
 	list-style: none;
+	text-align: left;
 }
 
 .route-name-container {
@@ -181,21 +191,6 @@ body {
 	border: none;
 	border-bottom: 2px solid #138d90;
 }
-
-
-/*.add-new-place {
-	float: right;
-	width: 40px;
-	height: 40px;
-	margin: 10px 20px;
-	border-radius: 50%;
-	background: #138d90;
-	color: #fff;
-    font-size: 30px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-}*/
 
 
 .places-distance-time {
@@ -231,11 +226,6 @@ body {
 	color: #138d90;
 }
 
-
-/*leaflet routing machine*/
-.leaflet-routing-alt table {
-	display: none;
-}
 
 /*big popup*/
 .big-popup {
@@ -374,5 +364,15 @@ body {
 		top: 70px;
 		right: 12px;
 		width: 18px;
+	}
+
+	.distance-container {
+		width: 120px;
+		height: 60px;
+		padding: 10px;
+		right: 10px;
+	}
+	.distance-sub-container:first-child {
+		display: none;
 	}
 }

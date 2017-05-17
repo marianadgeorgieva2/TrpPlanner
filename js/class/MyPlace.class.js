@@ -55,7 +55,7 @@ MyPlace.prototype.getMarker = function() {
 
 
 	marker.on( 'dragend', function( e ) {
-		newLocation = e.target._latlng;
+		newLocation = [ e.target._latlng.lat, e.target._latlng.lng ];
 
 		map.triggerEvent( 'update-marker-coords', { id: _this._id, coords: newLocation } );
 
