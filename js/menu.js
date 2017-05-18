@@ -39,7 +39,7 @@ menu.startWithHelpEventListener = function() {
 
 		showHelpMessage = true;
 
-		toastr.info( 'Let\'s start searching for places. Type in a city name in the top right search field.', null, helpOptions );
+		toastr.info( 'Let\'s start searching for places. Type in a city name in the search field in the top right corner.', null, helpOptions );
 
 		// open the search places input after 1 sec
 		setTimeout( function() {
@@ -183,7 +183,7 @@ map.showPlacesEventListener = function() {
 		$showPlacesMenu.toggleClass( 'hidden' );
 
 		if( showHelpMessage ) {
-			toastr.info( 'Here you can set the maximum distance between saved places and the route.', null, helpOptions );
+			toastr.info( 'Here you can set the maximum distance between the saved places and the route.', null, helpOptions );
 			toastr.info( 'Let\'s change it to 20 km', null, helpOptions );
 		}
 	});
@@ -233,7 +233,7 @@ map.saveRouteEventListener = function() {
 
 	$doc.on( 'click', '.save-route', function() {
 		$routeNameContainer.removeClass( 'hidden' );
-		$routeNameInput.focus();
+		$routeNameInput.val( '' ).focus();
 
 		if( showHelpMessage ) {
 			toastr.info( 'Add a name to your route.', null, helpOptions );

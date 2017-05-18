@@ -70,7 +70,7 @@ map.geocoderInit = function() {
 
 	        	if( showHelpMessage ) {
 	        		toastr.info( 'Now you can see the shortest route between the two places and the closest places.', null, helpOptions );
-	        		toastr.info( 'You can continue building your route by typing in another place in the serach field.', null, helpOptions );
+	        		toastr.info( 'You can continue building your route by typing in another place in the search field.', null, helpOptions );
 	        		toastr.info( 'Now let\'s save the route. Click on the "Save route" menu item at the bottom.', null, helpOptions );
 	        	}
 	        }
@@ -80,7 +80,7 @@ map.geocoderInit = function() {
 	        	if( showHelpMessage ) {
 	        		toastr.info( 'Great! In the circle you can see all places closer than given distance.', null, helpOptions );
 
-	        		toastr.info( 'Click on the marker to add it to saved places.', null, helpOptions );
+	        		toastr.info( 'Click on the marker to add it to the saved places.', null, helpOptions );
 	        	}
 	        }
 
